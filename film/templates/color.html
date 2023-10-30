@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+
+
+{% block container %}
+    <!--Using Element+-->
+    <el-form>
+        <el-form-item>
+            Select Colour: <br/>
+            <el-color-picker v-model="colorInput" color-format="rgb"></el-color-picker>
+{#            Color picker: https://element-plus.org/en-US/component/color-picker.html#basic-usage#}
+        </el-form-item>
+        <el-form-item>
+            <el-button @click="generateColor">Generate</el-button>
+        </el-form-item>
+    </el-form>
+
+    <div class="color" v-if="colorResult.length!==0">
+        <div class="color-item" v-for="(item, index) in colorResult" :style="{backgroundColor: `rgb(${item.join(',')})`}" :key="index">
+            <span>
+                [[ `rgb(${item.join(',')})` ]]
+{#                 displays the RGB color value in the format rgb(x, y, z) where x, y, and z are the values extracted from the item array.#}
+            </span>
+        </div>
+    </div>
+
+    <el-button v-if="colorResult.length!==0"  @click="saveColor">Save Palette</el-button>
+{% endblock %}

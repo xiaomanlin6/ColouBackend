@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login</title>
+</head>
+
+<body>
+<div id="app">
+    {% csrf_token %}
+        <div class="sign-in-form">
+            <h2>Login</h2>
+            <div>
+               Username: <input type="text" v-model="login_form.username" ref="login_form_username"/>
+            </div>
+            <div>
+               Password: <input type="password"v-model="login_form.password" ref="login_form_password"/>
+            </div>
+            <button @click="login">Login</button>
+        </div>
+
+        <div>
+            <h2 >Register</h2>
+            <div>
+                User Name: <input type="text" v-model="sign_form.username" ref="sign_form_username"/>
+            </div>
+            <div>
+                Password: <input type="password" v-model="sign_form.password" ref="sign_form_password"/>
+            </div>
+            <div>
+                Confirm Password: <input type="password" v-model="sign_form.re_password" ref="sign_form_re_password"/>
+            </div>
+            <button @click="sign">Register</button>
+        </div>
+</div>
+
+
+<script src="/static/axios/axios.min.js"></script>
+<script src="/static/vue/vue.js"></script>
+<script src="/static/elementui/index.js"></script>
+
+<script>
+    axios.interceptors.request.use(function(request){
+        if (request.method === 'post') {
+                let csrf_token = document.querySelector('input[name = "csrfmiddlewaretoken"]').value
+                request.headers['X-CSRFToken'] = csrf_token
+            }
+            return request
+    })
+
+    axios.interceptors.response.use(function (response) {
+        return response.data;}
+    )
+
+    new Vue({
+        el: '#app',
+        data: {
+
+            login_form: {
+                username: '',
+                password: '',
+            },
+
+            sign_form: {
+                username: '',
+                password: '',
+                re_password: '',
+            }
+
+        },
+
+        methods: {
+            login() {
+                axios.post(`/ColourPalette/login/`, this.login_form).then(response => {
+                    if (response.code) {
+                        this.$message.error(response.msg)
+                        this.$refs[`login_form_${response.self}`].focus()
+                        return
+                    }
+
+                    this.$message.success(response.msg)
+                    setTimeout(() => {
+                        location.href = '/color'
+                    }, 1000)
+                })
+            },
+
+            sign() {
+                axios.post(`/ColourPalette/sign/`, this.sign_form).then(response => {
+                    if (response.code) {
+                        this.$message.error(response.msg)
+                        this.$refs[`sign_form_${response.self}`].focus()
+                        return
+                    }
+
+                    this.$message.success(response.msg)
+                    setTimeout(() => {
+                        location.href = '/'
+                    }, 1000)
+                })
+            },
+        }
+
+    })
+</script>
+</body>
+</html>

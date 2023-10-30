@@ -1,0 +1,136 @@
+<!doctype html>
+{% load my_filter %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Palette Details</title>
+</head>
+<body>
+<div id="app">
+    <div class="nav">
+        <div class="container">
+            <a href="/home"><h2>Go back to Palettes</h2></a>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="container">
+            <h2>{{ color_obj.title }}</h2>
+
+            <div class="details">
+                <span class="date">Published:{{ color_obj.create_time|date:'Y-m-d' }}</span>
+
+                <span class="author">Publisher:{{ color_obj.user.username }}</span>
+            </div>
+
+            <div class="color" id="color" data-color="{{ color_list }}">
+                <div class="color-item" v-for="(item, index) in colorResult" :style="{backgroundColor: `rgb(${item.join(',')})`}" :key="index">
+                    <span>
+                        [[ `rgb(${item.join(',')})` ]]
+                    </span>
+                </div>
+            </div>
+
+            <el-button class="fix-btn" type="primary" @click="saveColor">Save to my Library</el-button>
+            <el-button @click="film_digg($event, '{{ color_obj.nid }}')">Like</el-button> <br/>
+            Received Like: {{ color_obj.digg_count }}
+        </div>
+
+    </div>
+
+    <div class="comment">
+        {% csrf_token %}
+        <div class="container">
+             <h2>Comments</h2>
+            <textarea class="input" v-model="comment"></textarea>
+            <el-button @click="addComment('{{ color_obj.nid }}')">Submit</el-button>
+
+            <ul class="comment_list">
+                {% for comment in comment_list %}
+                    <li>
+                        <span>user: {{ comment.user.username }}</span>
+                        <div class="content">
+                            {{ comment.content }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<script src="/static/vue/vue.js"></script>
+<script src="/static/elementui/index.js"></script>
+<script src="/static/axios/axios.min.js"></script>
+<script src="/static/jquery/jquery.min.js"></script>
+
+<script>
+    axios.interceptors.request.use(function(request){
+        if (request.method === 'post') {
+                let csrf_token = document.querySelector('input[name = "csrfmiddlewaretoken"]').value
+                request.headers['X-CSRFToken'] = csrf_token
+            }
+            return request
+    })
+
+    axios.interceptors.response.use(function (response) {
+        return response.data;}
+    )
+    {#Reference: https://stackoverflow.com/questions/52737078/how-can-you-use-axios-interceptors, https://stackoverflow.com/questions/65485435/how-can-i-send-a-csrf-token-in-a-form#}
+    new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                number: 1,
+                comment: '',
+                colorResult: []
+            }
+        },
+
+        mounted() {
+            let box = document.getElementById('color')
+            let colorResult = box.getAttribute('data-color')
+            this.colorResult = eval(colorResult)
+        },
+
+        methods: {
+            addComment(nid) {
+                axios.post(`/ColourPalette/comment/${nid}/`, {comment_content: this.comment}).then(response => {
+                    if (response.code) {
+                        this.$message.error(response.msg)
+                        return
+                    }
+                    this.$message.success(response.msg)
+                })
+            },
+
+            // Like
+            film_digg(e, nid) {
+                let likeButton = document.querySelector('.digg_icon')
+                axios.post(`/ColourPalette/film/digg/${nid}/`).then(response => {
+                    if (response.code) {
+                        this.$message.error(response.msg)
+                        return
+                    }
+                    $('.digg_text').text(response.data)
+                    this.$message.success(response.msg)
+                    if (response.isDigg) {
+                        likeButton.classList.add('active')
+                        return
+                    }
+                    likeButton.classList.remove('active')
+                })
+            },
+
+            saveColor() {
+                axios.post('/ColourPalette/film/', {colorResult: JSON.stringify(this.colorResult)}).then(response => {
+                    this.$message.success('Save successfully')
+                })
+            },
+        }
+    })
+</script>
+</body>
+</html>

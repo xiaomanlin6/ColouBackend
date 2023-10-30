@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="charset=utf-8"/>
+    <title>Homepage</title>
+    <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+</head>
+
+<body>
+<div id="app">
+    <el-aside>
+        <el-menu>
+            {% if not user_info.name %}
+                <el-menu-item index="0">
+                    <a href="/user"><span slot="title">Set up Your Profile</span></a>
+                </el-menu-item>
+            {% endif %}
+
+            {% if user_info.name %}
+                <el-menu-item index="1">
+                    <a href="/userinfo"><span slot="title">Account Details</span></a>
+                </el-menu-item>
+            {% endif %}
+
+            <el-menu-item index="2">
+                <span slot="title"><a href="/color">Palette Generator</a></span>
+            </el-menu-item>
+
+            <el-menu-item index="3">
+                <span slot="title"><a href="/home">Explore Palettes</a></span>
+            </el-menu-item>
+        </el-menu>
+    </el-aside>
+
+    <el-container>
+        <el-main>
+            {% csrf_token %}
+            {% block container %}
+                <el-table
+                            :data="tableList">
+                    <el-table-column
+                            prop="title"
+                            label="Title">
+                    </el-table-column>
+                    <el-table-column
+                            prop="username"
+                            label="Created By">
+                    </el-table-column>
+                    <el-table-column
+                                prop="digg_count"
+                                label="Likes">
+                    </el-table-column>
+                    <el-table-column
+                            prop="comment_count"
+                            label="Comments">
+                    </el-table-column>
+                    <el-table-column
+                            label="Operation">
+                        <template slot-scope="slotProps">
+{#                          Reference: https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots-with-the-slot-scope-Attribute#}
+                            <el-button @click="open_Film(slotProps.row.nid)" type="text">View
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            {% endblock %}
+        </el-main>
+    </el-container>
+</div>
+<script src="/static/axios/axios.min.js"></script>
+<script src="/static/vue/vue.js"></script>
+<script src="/static/elementui/index.js"></script>
+
+
+<script>
+     axios.interceptors.response.use(function (request){
+        return request
+    })
+    axios.interceptors.response.use(function (response){
+        return response.data
+    })
+
+    new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                colorResult: [],
+                userUpdate: {
+                    nid: 1,
+                    userName: '',
+                    userGender: '',
+                    userCompany: '',
+                    email: '',
+                },
+
+                userRules: {
+
+                    userName: [
+                        {required: true, trigger: 'blur'}
+                    ],
+
+                    userGender: [
+                        {required: true, trigger: 'blur'}
+                    ],
+
+                    userCompany: [
+                        {required: true, trigger: 'blur'}
+                    ],
+
+                    email: [
+                        {required: true, trigger: 'blur'}
+                    ],
+
+                },
+                search: '',
+                avatar_list_headers: {},
+                article: {
+                    title: '',
+                    abstract: '',
+                    content: ''
+                },
+                tableList: [],
+                config: {
+                    total: 10,
+                    page: 1,
+                    limit: 10,
+                    name: '',
+                },
+                dialogVisible: false,
+                upload_nid: 1,
+                colorInput: ''
+            }
+        },
+
+        mounted() {
+            this.getTableData()
+        },
+
+        methods: {
+            getTableData() {
+                axios({
+                    url: '/ColourPalette/film/',
+                    method: 'get',
+                    params: this.config,
+                }).then(reponse => {
+                    this.tableList = reponse.data
+                })
+            },
+
+            {#The required section does not work#}
+            updateUser(nid) {
+                this.userUpdate.nid = nid
+                axios.put(`/ColourPalette/userlur/`, this.userUpdate).then(reponse => {
+                    if (reponse.code !== 200) {
+                        this.$message.error(reponse.msg)
+                        return
+                    }
+                    this.$message.success(reponse.msg)
+                    setTimeout(() => {
+                        location.href = '/userinfo'
+                    }, 1000)
+                })
+            },
+
+            open_Film(nid) {
+                location.href = `/film/${nid}`
+            },
+
+            changePage(page) {
+                this.config.page = page
+                this.getTableData()
+            },
+
+            generateColor() {
+                let color = [0,0,0]
+                if (this.colorInput.length !== 0) {
+                    const regex = /\((.*?)\)/g
+                    const matches = this.colorInput.match(regex)
+                    {#reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Quantifiers#}
+                    color =  matches.map(match => match.replace(/\(|\)/g, '')).map(item => {
+                        return item.split(',')
+                    })[0]
+                }
+                console.log(color)
+                const data = {
+                    model : "default",
+                    input : [color,[0,0,0],"N","N","N"]
+                }
+                axios.post("http://colormind.io/api/", JSON.stringify(data)).then(reponse => {
+                    this.colorResult = reponse.result
+                })
+            },
+
+
+            saveColor() {
+                axios.post('/ColourPalette/film/', {colorResult: JSON.stringify(this.colorResult)}).then(reponse => {
+                    this.$message.success('Save Successfully')
+                    setTimeout(() => {
+                        location.href = '/home'
+                    }, 2000)
+
+                })
+            },
+        }
+    })
+
+
+</script>
+</body>
+</html>
+
+{% block script %}
+
+{% endblock %}
