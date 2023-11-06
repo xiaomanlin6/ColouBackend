@@ -146,6 +146,13 @@
                     userName: [
                         {required: true, message: "name is required",trigger: 'blur'}
                     ],
+                     userGender: [
+                        {required: true, message: "gender is required",trigger: 'blur'}
+                    ],
+
+                     userCompany: [
+                        {required: true, message: "company is required",trigger: 'blur'}
+                    ],
 
                     email: [
                         {required: true, message: "email is required", trigger: 'blur'}
@@ -221,16 +228,20 @@
 
             {#The required section does not work#}
             updateUser(nid) {
-                this.userUpdate.nid = nid
-                axios.put(`/ColourPalette/userlur/`, this.userUpdate).then(reponse => {
-                    if (reponse.code !== 200) {
-                        this.$message.error(reponse.msg)
-                        return
-                    }
-                    this.$message.success(reponse.msg)
-                    setTimeout(() => {
-                        location.href = '/userinfo'
-                    }, 1000)
+                this.$refs['userModelForm'].validate((valid) => {
+                  if (valid) {
+                      this.userUpdate.nid = nid
+                      axios.put(`/ColourPalette/userlur/`, this.userUpdate).then(reponse => {
+                        if (reponse.code !== 200) {
+                            this.$message.error(reponse.msg)
+                            return
+                        }
+                        this.$message.success(reponse.msg)
+                        setTimeout(() => {
+                            location.href = '/userinfo'
+                        }, 1000)
+                    })
+                  }
                 })
             },
 
