@@ -26,8 +26,13 @@ urlpatterns = [
     path('home/', views.home),
     path('user/', views.user),
     path('color/', views.color),
+    path('collect/', views.collect),
+    path('sharing/', views.sharing),
+    path('release_share/', views.release_share),
     path('userinfo/', views.userinfo),
     path('logout/', views.logout),
+    path('feedback/', views.feedback),
+    re_path(r'details/(?P<nid>\d+)', views.details),
     re_path(r'^film/(?P<nid>\d+)/', views.film),
     re_path(r'^ColourPalette/', include('ColourPalette.urls')),  # 将路由分发到api的urls
     re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),  # 用户上传文件路由分发

@@ -3,17 +3,17 @@
 {% block container %}
     <el-form class="userForm" :model="userUpdate" :rules="userRules">
         {% csrf_token %}
-        <el-form-item label="Name" prop="userName">
-            <el-input prop="name" v-model="userUpdate.userName" rules="userRules.userName" ></el-input>
+        <el-form-item label="Name" prop="userName" >
+            <el-input prop="name" v-model="userUpdate.userName" rules="userRules.userName"></el-input>
         </el-form-item>
         <el-form-item label="Gender" prop="userGender">
-            <el-input v-model="userUpdate.userGender" rules="userRules.userName"></el-input>
+            <el-input v-model="userUpdate.userGender"></el-input>
         </el-form-item>
         <el-form-item label="Company" prop="userCompany">
-            <el-input v-model="userUpdate.userCompany" rules="userRules.userName"></el-input>
+            <el-input v-model="userUpdate.userCompany"></el-input>
         </el-form-item>
-        <el-form-item label="Email" prop="email">
-            <el-input v-model="userUpdate.email" rules="userRules.userName"></el-input>
+        <el-form-item label="Email" prop="email" >
+            <el-input v-model="userUpdate.email" rules="userRules.email"></el-input>
         </el-form-item>
 
         <el-form-item>

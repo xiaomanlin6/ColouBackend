@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+
+{% block container %}
+    <el-form :model="shareForm" ref="releaseForm">
+        {% csrf_token %}
+        <el-form-item prop="title" label="Title" :rules="[{ required: true, message: 'Title is required', trigger: 'blur' }]">
+            <el-input v-model="shareForm.title" placeholder="placeholder title"></el-input>
+        </el-form-item>
+
+        <el-form-item prop="content" label="Content" :rules="[{ required: true, message: 'content is required', trigger: 'blur' }]">
+            <el-input v-model="shareForm.content" placeholder="placeholder content" type="textarea" rows="15"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button @click="releaseShare" type="success">submit</el-button>
+        </el-form-item>
+    </el-form>
+{% endblock %}

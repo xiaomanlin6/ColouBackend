@@ -17,10 +17,11 @@
                Password: <input type="password"v-model="login_form.password" ref="login_form_password"/>
             </div>
             <button @click="login">Login</button>
+            <button @click="dialogFormVisible = true">Retrieve password</button>
         </div>
 
         <div>
-            <h2 >Register</h2>
+            <h2>Register</h2>
             <div>
                 User Name: <input type="text" v-model="sign_form.username" ref="sign_form_username"/>
             </div>
@@ -32,6 +33,20 @@
             </div>
             <button @click="sign">Register</button>
         </div>
+
+    <el-dialog title="Retrieve Password" :visible.sync="dialogFormVisible">
+      <el-form :model="retrieveForm">
+        <el-form-item label="email" label-width="80px" :rules="[{ required: true, message: 'placeholder email', trigger: 'blur'}]">
+          <el-input v-model="retrieveForm.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="newPassword" label-width="80px" :rules="[{ required: true, message: 'placeholder new password', trigger: 'blur'}]">
+          <el-input v-model="retrieveForm.newPassword" autocomplete="off"></el-input>
+        </el-form-item>
+          <el-form-item>
+              <el-button type="primary" size="small" @click="retrievePassword">confirm</el-button>
+          </el-form-item>
+      </el-form>
+    </el-dialog>
 </div>
 
 
@@ -65,7 +80,13 @@
                 username: '',
                 password: '',
                 re_password: '',
-            }
+            },
+
+            retrieveForm: {
+                email: '',
+                newPassword: ''
+            },
+            dialogFormVisible: false
 
         },
 
@@ -99,6 +120,12 @@
                     }, 1000)
                 })
             },
+
+            retrievePassword() {
+                axios.post('/ColourPalette/retrieve/', this.retrieveForm).then(res => {
+
+                })
+            }
         }
 
     })

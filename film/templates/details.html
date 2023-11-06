@@ -1,0 +1,182 @@
+<!doctype html>
+{% load my_filter %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forums</title>
+    <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <div class="header">
+        <div class="header-container">
+            <div class="app-name">
+                <a href="/sharing">return List</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="main-content">
+            <div class="idle-details-container">
+                <div class="details-header">
+                    <div class="details-header-buy">
+                        <div style="color: red;font-size: 18px;font-weight: 600;">
+                            Created By： {{ sharing_obj.user.username }}</div>
+
+                        <div style="color: #333;font-size: 18px;font-weight: 600; margin: 0 20px">
+                            Created Time: {{ sharing_obj.create_date|date:'Y-m-d' }}</div>
+                    </div>
+                </div>
+
+                <div class="details-info">
+                    <div class="details-info-title">{{ sharing_obj.title }}</div>
+                    <div class="details-info-main">
+                        {{ sharing_obj.content }}
+                    </div>
+                </div>
+
+                <div class="message-container" id="replyMessageLocation">
+                    {% csrf_token %}
+                    <div class="message-title">Comment</div>
+                    <div class="message-send">
+                        <el-input
+                                type="textarea"
+                                autosize
+                                placeholder="input..."
+                                v-model="messageContent"
+                                maxlength="200"
+                                show-word-limit>
+                        </el-input>
+                        <div class="message-send-button">
+                            <el-button plain @click="sendMessage('{{ sharing_obj.nid }}')">Send</el-button>
+                        </div>
+                    </div>
+                    <div>
+                        {% for comment in comment_list %}
+                            <div class="message-container-list">
+                                <div class="message-container-list-left">
+                                    <el-image
+                                            style="width: 55px; height: 55px;border-radius: 5px;"
+                                            src="{{ comment.user.avatar.url }}"
+                                            fit="contain"></el-image>
+                                    <div class="message-container-list-text">
+                                        <div class="message-nickname">{{ comment.user.username }}
+                                        </div>
+                                        <div class="message-content">{{ comment.content }}</div>
+                                        <div class="message-time">{{ comment.create_date|date:'Y-m-d' }}</div>
+                                    </div>
+                                </div>
+                                <div class="message-container-list-right">
+                                    <el-button style="float: right;" plain
+                                               @click="replyMessage('{{ sharing_obj.nid }}', '{{ comment.nid }}')">replay
+                                    </el-button>
+                                </div>
+                            </div>
+                            {% for sub in comment.sub_comment %}
+                                <div class="message-container-list">
+                                    <div class="message-container-list-left">
+                                        <el-image
+                                                style="width: 55px; height: 55px;border-radius: 5px;"
+                                                src="{{ sub.user.avatar.url }}"
+                                                fit="contain"></el-image>
+                                        <div class="message-container-list-text">
+                                            <div class="message-nickname">{{ sub.user.username }}
+                                                @ {{ comment.user.username }}
+                                            </div>
+                                            <div class="message-content">{{ sub.content }}</div>
+                                            <div class="message-time">{{ sub.create_date|date:'Y-m-d' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="foot-container">
+                <div class="author">Color<a target="_blank"
+                                                   href="">@Designer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/vue/vue.js"></script>
+<script src="/static/elementui/index.js"></script>
+<script src="/static/axios/axios.min.js"></script>
+<script src="/static/jquery/jquery.min.js"></script>
+<script>
+    axios.interceptors.request.use(
+        request => {
+            if (request.method !== 'get') {
+                let csrf_token = document.querySelector('input[name = "csrfmiddlewaretoken"]').value
+                request.headers['X-CSRFToken'] = csrf_token
+            }
+            return request
+        },
+    )
+    axios.interceptors.response.use(
+        response => {
+            return response.data
+        }
+    )
+
+    new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                messageContent: ''
+            }
+        },
+
+        methods: {
+            sendMessage(nid) {
+                axios.post(`/ColourPalette/comment_share/${nid}/`, {content: this.messageContent}).then(res => {
+                    if (res.code !== 200) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000)
+                })
+            },
+
+            replyMessage(nid, pid) {
+                this.$prompt('placeholder content', 'tip', {
+                    confirmButtonText: 'confirm',
+                    cancelButtonText: 'cancel',
+                }).then(({value}) => {
+                    axios.post(`/ColourPalette/comment_share/${nid}/`, {content: value, pid: pid}).then(res => {
+                        if (res.code !== 200) {
+                            this.$message.error(res.msg)
+                            return
+                        }
+                        this.$message.success(res.msg)
+                        setTimeout(() => {
+                            location.reload()
+                        }, 1000)
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'cancel input'
+                    });
+                });
+            },
+        }
+    })
+
+</script>
+</body>
+</html>

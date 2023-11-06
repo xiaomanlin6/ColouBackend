@@ -7,4 +7,18 @@
     Gender: {{ user_info.gender }} <br/>
     Company: {{ user_info.company }} <br/>
     Email: {{ user_info.email }} <br/>
+    <div>
+    {% if user_info.avatar %}
+        <img style="width: 50px; border-radius: 50%" src="{{ user_info.avatar.url }}" alt="">
+    {% endif %}
+    </div>
+
+    <a href="/user"><button>change info</button></a>
+
+    <el-upload
+      class="upload-demo"
+      action="/ColourPalette/file/">
+      <el-button size="small" type="primary">upload avatar</el-button>
+    </el-upload>
+
 {% endblock %}

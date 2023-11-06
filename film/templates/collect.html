@@ -1,0 +1,31 @@
+{% extends 'home.html' %}
+
+{% block container %}
+    <el-table
+            :data="collectData">
+        <el-table-column
+                prop="nid"
+                label="ID">
+        </el-table-column>
+        <el-table-column
+                prop="color"
+                label="Title">
+        </el-table-column>
+        <el-table-column
+                prop="username"
+                label="Username">
+        </el-table-column>
+        <el-table-column
+                prop="create_date"
+                label="Collect Time">
+        </el-table-column>
+        <el-table-column
+                label="Operation">
+            <template slot-scope="slotProps">
+{#                          Reference: https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots-with-the-slot-scope-Attribute#}
+                <el-button @click="open_Film(slotProps.row.color_id)" type="text">View
+                </el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+{% endblock %}
