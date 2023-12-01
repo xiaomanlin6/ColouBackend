@@ -41,7 +41,7 @@
 
             <el-button class="fix-btn" type="primary" @click="saveColor">Save to my Library</el-button>
             <el-button @click="collect('{{ color_obj.nid }}')">save to personal collect</el-button>
-            <el-button @click="sharing">sharing color</el-button>
+            <el-button @click="sharing">Copy Palette Link</el-button>
             <div class="article_agree">
                 <div class="agree" @click="film_digg($event, '{{ color_obj.nid }}')">
                     <div
@@ -171,9 +171,20 @@
                 })
             },
             sharing() {
+                // Get the current page's URL
                 const url = location.href.toString()
-                console.log(url)
-                this.$message.success('sharing success')
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                tempInput.value = url;
+                document.body.appendChild(tempInput);
+
+                // Select the URL text in the input element
+                tempInput.select();
+                tempInput.setSelectionRange(0, 99999); //For mobile
+
+                document.execCommand('copy')
+                this.$message.success('link copied')
             }
         }
     })
