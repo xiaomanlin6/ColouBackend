@@ -39,8 +39,8 @@
                 </div>
             </div>
 
-            <el-button class="fix-btn" type="primary" @click="saveColor">Save to my Library</el-button>
-            <el-button @click="collect('{{ color_obj.nid }}')">save to personal collect</el-button>
+            <el-button @click="saveColor">Save to My Library</el-button>
+            <el-button @click="collect('{{ color_obj.nid }}')">Save to Personal Collection</el-button>
             <el-button @click="sharing">Copy Palette Link</el-button>
             <div class="article_agree">
                 <div class="agree" @click="film_digg($event, '{{ color_obj.nid }}')">
