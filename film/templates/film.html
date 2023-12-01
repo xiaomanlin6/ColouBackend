@@ -81,6 +81,10 @@
                         <div class="content">
                             {{ comment.content }}
                         </div>
+                        <div class="time">
+                            Commented at {{ comment.create_time }}
+                            <br><br>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
@@ -133,6 +137,7 @@
                     }
                     this.$message.success(response.msg)
                 })
+                location.reload();
             },
 
             // Like
