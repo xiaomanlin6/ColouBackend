@@ -1,7 +1,8 @@
 {% extends 'home.html' %}
 
 {% block container %}
-        <el-table
+    <el-skeleton :rows="12" animated :loading="isLoading">
+    <el-table
             :data="sharingList">
         <el-table-column
                 prop="title"

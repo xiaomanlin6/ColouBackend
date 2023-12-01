@@ -9,7 +9,9 @@
     Email: {{ user_info.email }} <br/>
     <div>
     {% if user_info.avatar %}
-        <img style="width: 50px; border-radius: 50%" src="{{ user_info.avatar.url }}" alt="">
+        <img style="width: 50px; border-radius: 50%" src="{{ user_info.avatar.url }}" alt="User Avatar">
+    {% else %}
+<img style="width: 50px; border-radius: 50%" src="/media/avatar/default_avatar.jpg" alt="Default Avatar">
     {% endif %}
     </div>
 
