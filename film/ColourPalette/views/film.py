@@ -54,6 +54,7 @@ class FilmView(View):
                 'nid': IndividualFilm.nid,
                 'title': IndividualFilm.title,
                 'username': IndividualFilm.user.username,
+                'content': eval(IndividualFilm.content),
                 'digg_count': IndividualFilm.digg_count,
                 'comment_count': IndividualFilm.comment_count,
                 'create_time': str(IndividualFilm.create_time),

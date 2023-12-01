@@ -14,4 +14,5 @@ urlpatterns = [
     re_path(r'film/digg/(?P<nid>\d+)/', film.ArticleDiggView.as_view()), #Like Palette
     re_path(r'comment_share/(?P<nid>\d+)/', comment_share.CommentView.as_view()),
     path('file/', file.AvatarView.as_view()),
+    path('edit_password/', user.EditPasswordView.as_view()),
 ]

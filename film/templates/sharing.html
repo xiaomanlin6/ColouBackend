@@ -1,38 +1,26 @@
 {% extends 'home.html' %}
 
 {% block container %}
-    <el-descriptions class="margin-top" title="Show List" :column="5" border>
-        {% for sharing in sharing_list %}
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-user"></i>
-                    Title
-                </template>
-                {{ sharing.title }}
-            </el-descriptions-item>
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-user"></i>
-                    User
-                </template>
-                {{ sharing.user.username}}
-            </el-descriptions-item>
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-location-outline"></i>
-                    Create Time
-                </template>
-                {{ sharing.create_date }}
-            </el-descriptions-item>
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-location-outline"></i>
-                    Button
-                </template>
-                <el-button type="primary" size="mini" @click="open('{{ sharing.nid }}')">View</el-button>
-            </el-descriptions-item>
-
-        {% endfor %}
-
-    </el-descriptions>
+        <el-table
+            :data="sharingList">
+        <el-table-column
+                prop="title"
+                label="Title">
+        </el-table-column>
+        <el-table-column
+                prop="username"
+                label="Username">
+        </el-table-column>
+        <el-table-column
+                prop="create_date"
+                label="Create Time">
+        </el-table-column>
+        <el-table-column
+                label="Operation">
+            <template slot-scope="slotProps">
+{#                          Reference: https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots-with-the-slot-scope-Attribute#}
+                <el-button type="primary" size="mini" @click="open(slotProps.row.nid)">View</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
 {% endblock %}

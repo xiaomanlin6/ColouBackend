@@ -15,3 +15,20 @@ class ShareView(View):
 
         res['code'] = 200
         return JsonResponse(res)
+
+    def get(self, request):
+        res = {
+            'code': 200,
+            'msg': 'success',
+            'data': []
+        }
+        
+        share_list = Sharing.objects.all()
+        for share in share_list:
+            res['data'].append({
+                'nid': share.nid,
+                'title': share.title,
+                'username': share.user.username,
+                'create_date': str(share.create_date)[:10]
+            })
+        return JsonResponse(res)

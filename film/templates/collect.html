@@ -1,6 +1,7 @@
 {% extends 'home.html' %}
 
 {% block container %}
+    <el-skeleton :rows="12" animated :loading="isLoading">
     <el-table
             :data="collectData">
         <el-table-column

@@ -1,115 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0">
     <title>Homepage</title>
     <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 <div id="app">
-    <el-aside>
-        <el-menu>
-            {% if not user_info.name %}
-                <el-menu-item index="0">
-                    <a href="/user"><span slot="title">Set up Your Profile</span></a>
-                </el-menu-item>
-            {% endif %}
+    <div class="header">
+        <el-dropdown style="color: #fff; cursor: pointer">
+          <span class="el-dropdown-link">
+            <i class="el-icon-user-solid"></i>
+              {{ request.user.username }}
+          </span>
+          <el-dropdown-menu slot="dropdown">
+              {% if not user_info.name %}
+              <a href="/user">
+                  <el-dropdown-item>setup profile</el-dropdown-item>
+              </a>
+              {% endif %}
+              {% if user_info.name %}
+              <a href="/userinfo">
+                  <el-dropdown-item>account detail</el-dropdown-item>
+              </a>
+              {% endif %}
+              <a href="/logout">
+                  <el-dropdown-item>logout</el-dropdown-item>
+              </a>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <div class="title">
+            <h2>Hue Harmony</h2>
+        </div>
 
-            {% if user_info.name %}
-                <el-menu-item index="1">
-                    <a href="/userinfo"><span slot="title">Account Details</span></a>
-                </el-menu-item>
-            {% endif %}
+    </div>
 
-            <el-menu-item index="2">
-                <span slot="title"><a href="/color">Palette Generator</a></span>
-            </el-menu-item>
-
-            <el-menu-item index="3">
-                <span slot="title"><a href="/collect">Personal Collect</a></span>
-            </el-menu-item>
-
-            <el-menu-item index="4">
-                <span slot="title"><a href="/home">Explore Palettes</a></span>
-            </el-menu-item>
-
-            <el-menu-item index="5">
-                <span slot="title"><a href="/release_share">Release Forum</a></span>
-            </el-menu-item>
-
-            <el-menu-item index="6">
-                <span slot="title"><a href="/sharing">Forums</a></span>
-            </el-menu-item>
-
-            <el-menu-item index="7">
-                <span slot="title"><a href="/feedback">Feedback</a></span>
-            </el-menu-item>
-        </el-menu>
-    </el-aside>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="margin-top: 20px">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+              <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/color">Generate</a>
+            </li>
+              <li class="nav-item">
+                  |
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Explore</a>
+            </li>
+              <li class="nav-item">
+                  |
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/collect">My Collection</a>
+            </li>
+              <li class="nav-item">
+                  |
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sharing">Community</a>
+            </li>
+              <li class="nav-item">
+                  |
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/release_share">Release</a>
+            </li>
+              <li class="nav-item">
+                  |
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/feedback">Feedback</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <el-container>
         <el-main>
             {% csrf_token %}
             {% block container %}
-                <el-card style="height: 80px; margin-bottom: 20px">
-                    <el-form :inline="true" :model="config">
-                        <el-form-item label="color name">
-                            <el-input placeholder="placeholder input" v-model="config.name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="color classify">
-                            <el-select v-model="config.comment" placeholder="placeholder select">
-                                <el-option
-                                  v-for="item in [{value: 'red', label: 'red'}, {value: 'blue', label: 'blue'}, {value: 'yellow', label: 'yellow'}]"
-                                  :key="item.value"
-                                  :label="item.label"
-                                  :value="item.value">
-                                </el-option>
-                          </el-select>
-                        </el-form-item>
-                        <el-form-item label="color sort">
-                            <el-select v-model="config.sort" placeholder="placeholder select">
-                                <el-option
-                                  v-for="item in [{value: 'digg_count', label: 'liked'}, {value: 'comment_count', label: 'comment'}]"
-                                  :key="item.value"
-                                  :label="item.label"
-                                  :value="item.value">
-                                </el-option>
-                          </el-select>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" size="small" @click="getTableData">start load</el-button>
-                            <el-button size="small" @click="resetData">reset load</el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-card>
-                <el-table
-                            :data="tableList">
-                    <el-table-column
-                            prop="title"
-                            label="Title">
-                    </el-table-column>
-                    <el-table-column
-                            prop="username"
-                            label="Created By">
-                    </el-table-column>
-                    <el-table-column
-                                prop="digg_count"
-                                label="Likes">
-                    </el-table-column>
-                    <el-table-column
-                            prop="comment_count"
-                            label="Comments">
-                    </el-table-column>
-                    <el-table-column
-                            label="Operation">
-                        <template slot-scope="slotProps">
-{#                          Reference: https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots-with-the-slot-scope-Attribute#}
-                            <el-button @click="open_Film(slotProps.row.nid)" type="text">View
-                            </el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                <el-skeleton :rows="12" animated :loading="isLoading">
+                    <div class="detail">
+                    <el-card class="card-form">
+                        <el-form :model="config" labelPosition="top">
+                            <el-form-item label="color name">
+                                <el-input placeholder="placeholder input" v-model="config.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="color classify">
+                                <el-select v-model="config.comment" placeholder="placeholder select">
+                                    <el-option
+                                      v-for="item in [{value: 'red', label: 'red'}, {value: 'blue', label: 'blue'}, {value: 'yellow', label: 'yellow'}]"
+                                      :key="item.value"
+                                      :label="item.label"
+                                      :value="item.value">
+                                    </el-option>
+                              </el-select>
+                            </el-form-item>
+                            <el-form-item label="color sort">
+                                <el-select v-model="config.sort" placeholder="placeholder select">
+                                    <el-option
+                                      v-for="item in [{value: 'digg_count', label: 'liked'}, {value: 'comment_count', label: 'comment'}]"
+                                      :key="item.value"
+                                      :label="item.label"
+                                      :value="item.value">
+                                    </el-option>
+                              </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" size="small" @click="getTableData">start load</el-button>
+                                <el-button size="small" @click="resetData">reset load</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-card>
+
+                    <div class="flex-row">
+                        <div class="card" @click="open_Film(item.nid)" style="width: 18rem;" v-for="item in tableList">
+                          <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">[[ item.title + item.nid ]]</h6>
+                              <div v-for="(item, index) in item.content" :style="{backgroundColor: `rgb(${item.join(',')})`}" :key="index">
+                              <span>
+                                    [[ `rgb(${item.join(',')})` ]]
+                                </span>
+                            </div>
+                            <p class="card-text">created by [[ item.username ]]</p>
+                            <span class="card-link">
+                                <i class="el-icon-star-off">[[ item.digg_count ]]</i>
+                            </span>
+                            <span class="card-link">
+                                <i class="el-icon-chat-line-round">[[ item.comment_count ]]</i>
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+
+                </div>
+                </el-skeleton>
+
             {% endblock %}
         </el-main>
     </el-container>
@@ -117,6 +151,8 @@
 <script src="/static/axios/axios.min.js"></script>
 <script src="/static/vue/vue.js"></script>
 <script src="/static/elementui/index.js"></script>
+<script src="https://unpkg.com/element-ui@2.15.6/lib/umd/locale/en.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
 
 
 <script>
@@ -126,7 +162,7 @@
     axios.interceptors.response.use(function (response){
         return response.data
     })
-
+     ELEMENT.locale(ELEMENT.lang.en);
     new Vue({
         el: '#app',
         delimiters: ['[[', ']]'],
@@ -178,23 +214,28 @@
                 },
                 feedbackModel: {
                     content: ''
-                }
+                },
+                isLoading: false,
+                sharingList: []
             }
         },
 
         mounted() {
             this.getTableData()
             this.getCollectData()
+            this.getSharing()
         },
 
         methods: {
             getTableData() {
+                this.isLoading = true
                 axios({
                     url: '/ColourPalette/film/',
                     method: 'get',
                     params: this.config,
                 }).then(reponse => {
                     this.tableList = reponse.data
+                    this.isLoading = false
                 })
             },
 
@@ -248,18 +289,23 @@
                 if (this.colorInput.length !== 0) {
                     const regex = /\((.*?)\)/g
                     const matches = this.colorInput.match(regex)
-                    {#reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Quantifiers#}
                     color =  matches.map(match => match.replace(/\(|\)/g, '')).map(item => {
                         return item.split(',')
                     })[0]
                 }
-                console.log(color)
                 const data = {
                     model : "default",
                     input : [color,[0,0,0],"N","N","N"]
                 }
+                const loading = this.$loading({
+                  lock: true,
+                  text: 'Loading',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0.7)'
+                });
                 axios.post("http://colormind.io/api/", JSON.stringify(data)).then(reponse => {
                     this.colorResult = reponse.result
+                    loading.close()
                 })
             },
 
@@ -291,6 +337,12 @@
                     console.log('error submit!!')
                     return false
                   }
+                })
+            },
+
+            getSharing() {
+                axios.get('/ColourPalette/share/').then(res => {
+                    this.sharingList = res.data
                 })
             },
 
