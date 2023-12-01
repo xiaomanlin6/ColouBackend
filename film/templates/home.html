@@ -6,6 +6,14 @@
     <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
     <link rel="stylesheet" href="/static/css/home.css">
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+    .active-link {
+        color: #007ACC;
+        font-weight: bold;
+    }
+    </style>
+
 </head>
 
 <body>
@@ -45,43 +53,45 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-              <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/color">Generate</a>
-            </li>
-              <li class="nav-item">
-                  |
-              </li>
             <li class="nav-item">
-              <a class="nav-link" href="/home">Explore</a>
+              <a class="nav-link {% if request.path == '/color/' %}active-link{% endif %}" href="/color">Generate</a>
             </li>
-              <li class="nav-item">
-                  |
-              </li>
             <li class="nav-item">
-              <a class="nav-link" href="/collect">My Collection</a>
+              |
             </li>
-              <li class="nav-item">
-                  |
-              </li>
             <li class="nav-item">
-              <a class="nav-link" href="/sharing">Community</a>
+              <a class="nav-link {% if request.path == '/home/' %}active-link{% endif %}" href="/home">Explore</a>
             </li>
-              <li class="nav-item">
-                  |
-              </li>
             <li class="nav-item">
-              <a class="nav-link" href="/release_share">Post</a>
+              |
             </li>
-              <li class="nav-item">
-                  |
-              </li>
             <li class="nav-item">
-              <a class="nav-link" href="/feedback">Feedback</a>
+              <a class="nav-link {% if request.path == '/collect/' %}active-link{% endif %}" aria-current="page" href="/collect">My Collection</a>
+            </li>
+            <li class="nav-item">
+              |
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/sharing/' %}active-link{% endif %}" href="/sharing">Community</a>
+            </li>
+            <li class="nav-item">
+              |
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/release_share/' %}active-link{% endif %}" href="/release_share">Post</a>
+            </li>
+            <li class="nav-item">
+              |
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/feedback/' %}active-link{% endif %}" href="/feedback">Feedback</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+
+
 
     <el-container>
         <el-main>

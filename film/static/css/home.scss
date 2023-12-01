@@ -73,6 +73,11 @@
   align-items: center;
 }
 
+.active-link {
+  color: #007ACC;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 900px) {
   .detail {
     display: flex;
@@ -84,3 +89,5 @@
     }
   }
 }
+
+
