@@ -1,0 +1,38 @@
+{% extends 'home.html' %}
+
+{% block container %}
+    <el-descriptions class="margin-top" title="Show List" :column="5" border>
+        {% for sharing in sharing_list %}
+            <el-descriptions-item>
+                <template slot="label">
+                    <i class="el-icon-user"></i>
+                    Title
+                </template>
+                {{ sharing.title }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template slot="label">
+                    <i class="el-icon-user"></i>
+                    User
+                </template>
+                {{ sharing.user.username}}
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template slot="label">
+                    <i class="el-icon-location-outline"></i>
+                    Create Time
+                </template>
+                {{ sharing.create_date }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+                <template slot="label">
+                    <i class="el-icon-location-outline"></i>
+                    Button
+                </template>
+                <el-button type="primary" size="mini" @click="open('{{ sharing.nid }}')">View</el-button>
+            </el-descriptions-item>
+
+        {% endfor %}
+
+    </el-descriptions>
+{% endblock %}

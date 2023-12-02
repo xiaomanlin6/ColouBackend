@@ -9,7 +9,7 @@ from import_export.admin import ImportExportModelAdmin
 class UserInfoAdmin(UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("name", "email", "gender", "company", "digg_film")}),
+        (_("Personal info"), {"fields": ("name", "email", "gender", "avatar", "company", "digg_film")}),
         (
             _("Permissions"),
             {
@@ -64,4 +64,8 @@ class CommentAdmin(admin.ModelAdmin):
 admin.site.register(UserInfo, UserInfoAdmin)
 admin.site.register(Color, ColorAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Sharing)
+admin.site.register(Collect)
+admin.site.register(CommentSharing)
+admin.site.register(FeedBack)
 

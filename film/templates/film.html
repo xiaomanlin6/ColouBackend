@@ -21,6 +21,8 @@
                 <span class="date">Published:{{ color_obj.create_time|date:'Y-m-d' }}</span>
 
                 <span class="author">Publisher:{{ color_obj.user.username }}</span>
+
+                <img style="width: 50px; border-radius: 50%" src="{{ color_obj.user.avatar.url }}" alt="">
             </div>
 
             <div class="color" id="color" data-color="{{ color_list }}">
@@ -32,6 +34,7 @@
             </div>
 
             <el-button class="fix-btn" type="primary" @click="saveColor">Save to my Library</el-button>
+            <el-button @click="collect('{{ color_obj.nid }}')">save to personal collect</el-button>
             <el-button @click="film_digg($event, '{{ color_obj.nid }}')">Like</el-button> <br/>
             Received Like: {{ color_obj.digg_count }}
         </div>
@@ -129,6 +132,12 @@
                     this.$message.success('Save successfully')
                 })
             },
+
+            collect(nid) {
+                axios.post('/ColourPalette/collect/', {nid: nid}).then(res => {
+                    this.$message.success('Save successfully')
+                })
+            }
         }
     })
 </script>

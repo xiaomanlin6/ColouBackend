@@ -27,7 +27,23 @@
             </el-menu-item>
 
             <el-menu-item index="3">
+                <span slot="title"><a href="/collect">Personal Collect</a></span>
+            </el-menu-item>
+
+            <el-menu-item index="4">
                 <span slot="title"><a href="/home">Explore Palettes</a></span>
+            </el-menu-item>
+
+            <el-menu-item index="5">
+                <span slot="title"><a href="/release_share">Release Forum</a></span>
+            </el-menu-item>
+
+            <el-menu-item index="6">
+                <span slot="title"><a href="/sharing">Forums</a></span>
+            </el-menu-item>
+
+            <el-menu-item index="7">
+                <span slot="title"><a href="/feedback">Feedback</a></span>
             </el-menu-item>
         </el-menu>
     </el-aside>
@@ -36,6 +52,36 @@
         <el-main>
             {% csrf_token %}
             {% block container %}
+                <el-card style="height: 80px; margin-bottom: 20px">
+                    <el-form :inline="true" :model="config">
+                        <el-form-item label="color name">
+                            <el-input placeholder="placeholder input" v-model="config.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="color classify">
+                            <el-select v-model="config.comment" placeholder="placeholder select">
+                                <el-option
+                                  v-for="item in [{value: 'red', label: 'red'}, {value: 'blue', label: 'blue'}, {value: 'yellow', label: 'yellow'}]"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                          </el-select>
+                        </el-form-item>
+                        <el-form-item label="color sort">
+                            <el-select v-model="config.sort" placeholder="placeholder select">
+                                <el-option
+                                  v-for="item in [{value: 'digg_count', label: 'liked'}, {value: 'comment_count', label: 'comment'}]"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                          </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" size="small" @click="getTableData">start load</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-card>
                 <el-table
                             :data="tableList">
                     <el-table-column
@@ -126,15 +172,24 @@
                     page: 1,
                     limit: 10,
                     name: '',
+                    classify: '',
+                    sort: ''
                 },
                 dialogVisible: false,
                 upload_nid: 1,
-                colorInput: ''
+                colorInput: '',
+                collectData: [],
+                shareForm: {
+                    title: '',
+                    content: ''
+                },
+                feedContent: ''
             }
         },
 
         mounted() {
             this.getTableData()
+            this.getCollectData()
         },
 
         methods: {
@@ -145,6 +200,15 @@
                     params: this.config,
                 }).then(reponse => {
                     this.tableList = reponse.data
+                })
+            },
+
+            getCollectData() {
+                axios({
+                    url: '/ColourPalette/collect/',
+                    method: 'get',
+                }).then(reponse => {
+                    this.collectData = reponse.data
                 })
             },
 
@@ -202,6 +266,38 @@
 
                 })
             },
+
+            collect(nid) {
+                axios.post('/ColourPalette/collect/', {nid: nid}).then(res => {
+                    this.$message.success('Save successfully')
+                })
+            },
+
+            releaseShare() {
+                axios.post('/ColourPalette/share/', this.shareForm).then(res => {
+                    if (res.code !== 200) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.href = '/sharing'
+                    }, 1000)
+                })
+            },
+
+            open(nid) {
+                location.href = `/details/${nid}`
+            },
+
+            submitFeed() {
+                axios.post('/ColourPalette/feedback/', {content: this.feedContent}).then(res => {
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000)
+                })
+            }
         }
     })
 

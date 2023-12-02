@@ -24,4 +24,5 @@
     </div>
 
     <el-button v-if="colorResult.length!==0"  @click="saveColor">Save Palette</el-button>
+    <el-button v-if="colorResult.length!==0" @click="collect('{{ color_obj.nid }}')">save to personal collect</el-button>
 {% endblock %}

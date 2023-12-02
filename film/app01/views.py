@@ -1,8 +1,7 @@
-import datetime
-
 from django.contrib import auth
 from django.shortcuts import render, redirect
-from app01.models import UserInfo, Color, Comment
+from app01.models import UserInfo, Color, Comment, Sharing
+from app01.utils.sub_comment import sub_comment_list
 
 
 # Create your views here.
@@ -43,3 +42,30 @@ def logout(request):
 def color(request):
     user_info = UserInfo.objects.filter(nid=request.user.nid).first()
     return render(request, 'color.html', locals())
+
+def collect(request):
+    user_info = UserInfo.objects.filter(nid=request.user.nid).first()
+    return render(request, 'collect.html', locals())
+
+
+def sharing(request):
+    user_info = UserInfo.objects.filter(nid=request.user.nid).first()
+    sharing_list = Sharing.objects.all()
+    return render(request, 'sharing.html', locals())
+
+
+def release_share(request):
+    user_info = UserInfo.objects.filter(nid=request.user.nid).first()
+    return render(request, 'release_share.html', locals())
+
+
+def details(request, nid):
+    user_info = UserInfo.objects.filter(nid=request.user.nid).first()
+    sharing_obj = Sharing.objects.filter(nid=nid).first()
+    comment_list = sub_comment_list(nid)
+    return render(request, 'details.html', locals())
+
+
+def feedback(request):
+    user_info = UserInfo.objects.filter(nid=request.user.nid).first()
+    return render(request, 'feedback.html', locals())

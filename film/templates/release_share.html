@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+
+{% block container %}
+    <el-form :model="shareForm">
+        {% csrf_token %}
+        <el-form-item label="Title">
+            <el-input v-model="shareForm.title" placeholder="placeholder title"></el-input>
+        </el-form-item>
+
+        <el-form-item label="Content">
+            <el-input v-model="shareForm.content" placeholder="placeholder content" type="textarea" rows="15"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button @click="releaseShare" type="success">submit</el-button>
+        </el-form-item>
+    </el-form>
+{% endblock %}

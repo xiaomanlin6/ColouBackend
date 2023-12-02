@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+
+{% block container %}
+    <el-form>
+        {% csrf_token %}
+        <el-form-item label="Content">
+            <el-input v-model="feedContent" placeholder="placeholder content" type="textarea" rows="15"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button @click="submitFeed" type="success">submit</el-button>
+        </el-form-item>
+    </el-form>
+{% endblock %}

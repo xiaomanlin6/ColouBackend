@@ -44,7 +44,10 @@ class FilmView(View):
             'data': [],
         }
         name = request.GET.get('name')
-        film = Color.objects.filter(title__contains=name)
+        sort = request.GET.get('sort')
+        film = Color.objects.filter(content__contains=name)
+        if sort:
+            film = film.order_by(f'-{sort}')
 
         for IndividualFilm in film:
             status['data'].append({
@@ -56,7 +59,7 @@ class FilmView(View):
                 'create_time': str(IndividualFilm.create_time),
             })
 
-        status['code'] = 600
+        status['code'] = 200
         return JsonResponse(status)
 
     def post(self, request):
