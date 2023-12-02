@@ -29,7 +29,7 @@
                     <el-button type="text"  @click="edit_password_dialogVisible=true">Reset Password</el-button>
                 </div>
                 <div class="sign-up-form">
-                    <h2 class="title">Sign</h2>
+                    <h2 class="title">Sign Up</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <input type="text" placeholder="Username" v-model="sign_form.username" ref="sign_form_username"></input>
@@ -48,7 +48,7 @@
                         <input type="password" placeholder="Confirm Password" v-model="sign_form.re_password"
                                ref="sign_form_re_password"></input>
                     </div>
-                    <button class="btn" @click="questionVisible = true">Sign</button>
+                    <button class="btn" @click="questionVisible = true">Sign Up</button>
                 </div>
             </div>
         </div>
@@ -57,22 +57,17 @@
             <div class="panel left-panel">
                 <div class="content">
                     <h3>New User?</h3>
-                    <p>
-                        Please click button to sign
-
-                    </p>
+                    <br>
                     <button class="btn transparent" id="sign-up-btn" @click="increase">
-                        Sign
+                        Sign Up
                     </button>
                 </div>
                 <img src="/static/img/login.svg" class="image" alt=""/>
             </div>
             <div class="panel right-panel">
                 <div class="content">
-                    <h3>Have Account?</h3>
-                    <p>img
-                        Please click button to login
-                    </p>
+                    <h3>Have an Account?</h3>
+                    <br>
                     <button class="btn transparent" id="sign-in-btn" @click="decrease">
                         Login
                     </button>
@@ -82,12 +77,13 @@
         </div>
     </div>
 
-    <el-dialog title="Question" :visible.sync="questionVisible">
+    <el-dialog title="Security Question" :visible.sync="questionVisible">
+    Please set answers for security questions.
       <el-form :model="sign_form" labelPosition="top">
-        <el-form-item label="what is your mother's maiden name" :rules="[{ required: true, message: 'placeholder maiden name', trigger: 'blur'}]">
+        <el-form-item label="What is your mother's maiden name" :rules="[{ required: true, message: 'placeholder maiden name', trigger: 'blur'}]">
           <el-input v-model="sign_form.maidenName" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="what is the name of your childhood best friend" :rules="[{ required: true, message: 'placeholder friend name', trigger: 'blur'}]">
+        <el-form-item label="What is the name of your childhood best friend" :rules="[{ required: true, message: 'placeholder friend name', trigger: 'blur'}]">
             <el-input v-model="sign_form.friendName" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -103,23 +99,23 @@
       <div class="edit_info">
           <div>
               <label for="edit_password_old_pwd">Username</label>
-              <el-input id="edit_password_old_pwd" type="text" v-model="edit_password.username" placeholder="Placeholder Username"></el-input>
+              <el-input id="edit_password_old_pwd" type="text" v-model="edit_password.username" ></el-input>
           </div>
           <div>
-              <label for="edit_password_pwd">Maiden Name</label>
-              <el-input id="edit_password_pwd" type="text" v-model="edit_password.maidenName" placeholder="Placeholder Maiden Name"></el-input>
+              <label for="edit_password_pwd">What is your mother's maiden name?</label>
+              <el-input id="edit_password_pwd" type="text" v-model="edit_password.maidenName" ></el-input>
           </div>
           <div>
-              <label for="edit_password_pwd">Friend Name</label>
-              <el-input id="edit_password_pwd" type="text" v-model="edit_password.firendName" placeholder="Placeholder Friend Name"></el-input>
+              <label for="edit_password_pwd">What is the name of your childhood best friend?</label>
+              <el-input id="edit_password_pwd" type="text" v-model="edit_password.firendName"></el-input>
           </div>
           <div>
-              <label for="edit_password_pwd">Password</label>
-              <el-input id="edit_password_pwd" type="password" v-model="edit_password.pwd" placeholder="Placeholder Password"></el-input>
+              <label for="edit_password_pwd">New Password</label>
+              <el-input id="edit_password_pwd" type="password" v-model="edit_password.pwd"></el-input>
           </div>
           <div>
               <label for="edit_password_re_pwd">Confirm Password</label>
-              <el-input id="edit_password_re_pwd" type="password" v-model="edit_password.re_pwd" placeholder="Placeholder Confirm Password"></el-input>
+              <el-input id="edit_password_re_pwd" type="password" v-model="edit_password.re_pwd"></el-input>
           </div>
       </div>
       <span slot="footer" class="dialog-footer">

@@ -1,26 +1,40 @@
 {% extends 'home.html' %}
 
 {% block container %}
+<div class="container mt-4">
     <h2>Your Account</h2>
-    Username: {{ request.user.username }} <br/>
-    Name: {{ user_info.name }} <br/>
-    Gender: {{ user_info.gender }} <br/>
-    Company: {{ user_info.company }} <br/>
-    Email: {{ user_info.email }} <br/>
-    <div>
-    {% if user_info.avatar %}
-        <img style="width: 50px; border-radius: 50%" src="{{ user_info.avatar.url }}" alt="User Avatar">
-    {% else %}
-<img style="width: 50px; border-radius: 50%" src="/media/avatar/default_avatar.jpg" alt="Default Avatar">
-    {% endif %}
+
+    <div class="row">
+        <div class="col-md-3">
+            {% if user_info.avatar %}
+                <img class="img-fluid rounded-circle" src="{{ user_info.avatar.url }}" alt="User Avatar">
+            {% else %}
+                <img class="img-fluid rounded-circle" src="/media/avatar/default_avatar.jpg" alt="Default Avatar">
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <h5>Username: {{ request.user.username }}</h5>
+            <p>Name: {{ user_info.name }}</p>
+            <p>Gender: {{ user_info.gender }}</p>
+            <p>Company: {{ user_info.company }}</p>
+            <p>Email: {{ user_info.email }}</p>
+        </div>
     </div>
 
-    <a href="/user"><button>change info</button></a>
+    <div class="row mt-3">
+    <div class="col-md-6">
+        <div class="d-flex">
+            <button class="btn btn-primary" @click="redirectToUserPage">Change Info</button>
+            <el-upload
+                class="upload-demo"
+                action="/ColourPalette/file/"
+            >
+                <el-button type="primary">Upload Profile Photo</el-button>
+            </el-upload>
+        </div>
+    </div>
+</div>
 
-    <el-upload
-      class="upload-demo"
-      action="/ColourPalette/file/">
-      <el-button size="small" type="primary">upload avatar</el-button>
-    </el-upload>
-
+</div>
 {% endblock %}

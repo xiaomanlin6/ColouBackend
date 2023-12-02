@@ -27,16 +27,16 @@
           <el-dropdown-menu slot="dropdown">
               {% if not user_info.name %}
               <a href="/user">
-                  <el-dropdown-item>setup profile</el-dropdown-item>
+                  <el-dropdown-item>Setup Profile</el-dropdown-item>
               </a>
               {% endif %}
               {% if user_info.name %}
               <a href="/userinfo">
-                  <el-dropdown-item>account detail</el-dropdown-item>
+                  <el-dropdown-item>Account Detail</el-dropdown-item>
               </a>
               {% endif %}
               <a href="/logout">
-                  <el-dropdown-item>logout</el-dropdown-item>
+                  <el-dropdown-item>Logout</el-dropdown-item>
               </a>
           </el-dropdown-menu>
         </el-dropdown>
@@ -190,18 +190,18 @@
                 userRules: {
 
                     userName: [
-                        {required: true, message: "name is required",trigger: 'blur'}
+                        {required: true, message: "Name is required", trigger: 'blur'}
                     ],
-                     userGender: [
-                        {required: true, message: "gender is required",trigger: 'blur'}
+                    userGender: [
+                        {required: true, message: "Gender is required", trigger: 'blur'}
                     ],
 
-                     userCompany: [
-                        {required: true, message: "company is required",trigger: 'blur'}
+                    userCompany: [
+                        {required: true, message: "Company is required", trigger: 'blur'}
                     ],
 
                     email: [
-                        {required: true, message: "email is required", trigger: 'blur'}
+                        {required: true, message: "Email is required", trigger: 'blur'}
                     ],
 
                 },
@@ -280,19 +280,19 @@
             {#The required section does not work#}
             updateUser(nid) {
                 this.$refs['userModelForm'].validate((valid) => {
-                  if (valid) {
-                      this.userUpdate.nid = nid
-                      axios.put(`/ColourPalette/userlur/`, this.userUpdate).then(reponse => {
-                        if (reponse.code !== 200) {
-                            this.$message.error(reponse.msg)
-                            return
-                        }
-                        this.$message.success(reponse.msg)
-                        setTimeout(() => {
-                            location.href = '/userinfo'
-                        }, 1000)
-                    })
-                  }
+                    if (valid) {
+                        this.userUpdate.nid = nid
+                        axios.put(`/ColourPalette/userlur/`, this.userUpdate).then(reponse => {
+                            if (reponse.code !== 200) {
+                                this.$message.error(reponse.msg)
+                                return
+                            }
+                            this.$message.success(reponse.msg)
+                            setTimeout(() => {
+                                location.href = '/userinfo'
+                            }, 1000)
+                        })
+                    }
                 })
             },
 
@@ -306,23 +306,23 @@
             },
 
             generateColor() {
-                let color = [0,0,0]
+                let color = [0, 0, 0]
                 if (this.colorInput.length !== 0) {
                     const regex = /\((.*?)\)/g
                     const matches = this.colorInput.match(regex)
-                    color =  matches.map(match => match.replace(/\(|\)/g, '')).map(item => {
+                    color = matches.map(match => match.replace(/\(|\)/g, '')).map(item => {
                         return item.split(',')
                     })[0]
                 }
                 const data = {
-                    model : "default",
-                    input : [color,[0,0,0],"N","N","N"]
+                    model: "default",
+                    input: [color, [0, 0, 0], "N", "N", "N"]
                 }
                 const loading = this.$loading({
-                  lock: true,
-                  text: 'Loading',
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.7)'
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
                 });
                 axios.post("http://colormind.io/api/", JSON.stringify(data)).then(reponse => {
                     this.colorResult = reponse.result
@@ -343,21 +343,21 @@
 
             releaseShare() {
                 this.$refs['releaseForm'].validate((valid) => {
-                  if (valid) {
-                    axios.post('/ColourPalette/share/', this.shareForm).then(res => {
-                    if (res.code !== 200) {
-                        this.$message.error(res.msg)
-                        return
+                    if (valid) {
+                        axios.post('/ColourPalette/share/', this.shareForm).then(res => {
+                            if (res.code !== 200) {
+                                this.$message.error(res.msg)
+                                return
+                            }
+                            this.$message.success(res.msg)
+                            setTimeout(() => {
+                                location.href = '/sharing'
+                            }, 1000)
+                        })
+                    } else {
+                        console.log('error submit!!')
+                        return false
                     }
-                    this.$message.success(res.msg)
-                    setTimeout(() => {
-                        location.href = '/sharing'
-                    }, 1000)
-                })
-                  } else {
-                    console.log('error submit!!')
-                    return false
-                  }
                 })
             },
 
@@ -375,19 +375,25 @@
                 this.$refs['feedbackForm'].validate((valid) => {
                     if (valid) {
                         axios.post('/ColourPalette/feedback/', this.feedbackModel).then(res => {
-                        this.$message.success(res.msg)
-                        setTimeout(() => {
-                            location.reload()
-                        }, 1000)
-                    })
+                            this.$message.success(res.msg)
+                            setTimeout(() => {
+                                location.reload()
+                            }, 1000)
+                        })
                     } else {
-                    console.log('error submit!!')
-                    return false
-                  }
+                        console.log('error submit!!')
+                        return false
+                    }
                 })
-            }
+            },
+
+            redirectToUserPage() {
+                this.$router.push('/user');
+            },
+
         }
     })
+
 
 
 </script>

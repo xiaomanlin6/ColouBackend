@@ -2,6 +2,7 @@ from django.contrib import auth
 from django.shortcuts import render, redirect
 from app01.models import UserInfo, Color, Comment, Sharing
 from app01.utils.sub_comment import sub_comment_list
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -43,6 +44,7 @@ def color(request):
     user_info = UserInfo.objects.filter(nid=request.user.nid).first()
     return render(request, 'color.html', locals())
 
+
 def collect(request):
     user_info = UserInfo.objects.filter(nid=request.user.nid).first()
     return render(request, 'collect.html', locals())
@@ -69,3 +71,4 @@ def details(request, nid):
 def feedback(request):
     user_info = UserInfo.objects.filter(nid=request.user.nid).first()
     return render(request, 'feedback.html', locals())
+
