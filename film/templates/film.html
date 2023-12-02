@@ -39,7 +39,6 @@
                 </div>
             </div>
 
-            <el-button @click="saveColor">Save to My Library</el-button>
             <el-button @click="collect('{{ color_obj.nid }}')">Save to Personal Collection</el-button>
             <el-button @click="sharing">Copy Palette Link</el-button>
             <div class="article_agree">
@@ -164,11 +163,6 @@
                 })
             },
 
-            saveColor() {
-                axios.post('/ColourPalette/film/', {colorResult: JSON.stringify(this.colorResult)}).then(response => {
-                    this.$message.success('Save successfully')
-                })
-            },
 
             collect(nid) {
                 axios.post('/ColourPalette/collect/', {nid: nid}).then(res => {
