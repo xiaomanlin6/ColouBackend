@@ -1,32 +1,29 @@
 {% extends 'home.html' %}
 
 {% block container %}
-    <el-skeleton :rows="12" animated :loading="isLoading">
-    <el-table
-            :data="collectData">
-        <el-table-column
-                prop="nid"
-                label="ID">
-        </el-table-column>
-        <el-table-column
-                prop="color"
-                label="Title">
-        </el-table-column>
-        <el-table-column
-                prop="username"
-                label="Username">
-        </el-table-column>
-        <el-table-column
-                prop="create_date"
-                label="Collect Time">
-        </el-table-column>
-        <el-table-column
-                label="Operation">
-            <template slot-scope="slotProps">
-{#                          Reference: https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots-with-the-slot-scope-Attribute#}
-                <el-button @click="open_Film(slotProps.row.color_id)" type="text">View
-                </el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+    <div class="container mt-4">
+        <el-skeleton :rows="12" animated :loading="isLoading">
+            <el-table :data="collectData" class="table table-striped">
+                <el-table-column prop="nid" label="ID">
+                </el-table-column>
+                <el-table-column prop="color" label="Title">
+                </el-table-column>
+                <el-table-column prop="create_date" label="Time Collected">
+                </el-table-column>
+                <el-table-column label="Colors">
+                    <template slot-scope="slotProps">
+                        <div v-for="(color, index) in parseColors(slotProps.row.content)" :key="index" class="d-flex align-items-center">
+                            <div :style="{ backgroundColor: 'rgb(' + color.join(',') + ')', width: '30px', height: '30px', marginRight: '10px' }"></div>
+                            <span>[[ `rgb(${color.join(',')})` ]]</span>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column>
+                    <template slot-scope="slotProps">
+                        <el-button @click="open_Film(slotProps.row.color_id)" type="text">View</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-skeleton>
+    </div>
 {% endblock %}
