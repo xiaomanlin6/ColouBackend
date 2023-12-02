@@ -8,7 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forums</title>
     <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="/static/css/details.css">
+=======
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
 </head>
 <body>
 <div id="app">
@@ -80,12 +83,18 @@
                             {% for sub in comment.sub_comment %}
                                 <div class="message-container-list">
                                     <div class="message-container-list-left">
+<<<<<<< HEAD
                                         {% if sub.user.avatar %}
+=======
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
                                         <el-image
                                                 style="width: 55px; height: 55px;border-radius: 5px;"
                                                 src="{{ sub.user.avatar.url }}"
                                                 fit="contain"></el-image>
+<<<<<<< HEAD
                                         {% endif %}
+=======
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
                                         <div class="message-container-list-text">
                                             <div class="message-nickname">{{ sub.user.username }}
                                                 @ {{ comment.user.username }}

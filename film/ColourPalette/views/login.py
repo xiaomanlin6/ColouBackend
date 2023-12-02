@@ -25,10 +25,12 @@ class LoginForm(LoginBaseForm):
             return self.cleaned_data
         self.cleaned_data['user'] = user
         return self.cleaned_data
-#Authenticate Users
-#Reference:https://docs.djangoproject.com/en/4.2/topics/auth/default/
-#Cleaned Data: remove the relevant field form
-#Reference: https://docs.djangoproject.com/en/4.2/ref/forms/api/
+
+
+# Authenticate Users
+# Reference:https://docs.djangoproject.com/en/4.2/topics/auth/default/
+# Cleaned Data: remove the relevant field form
+# Reference: https://docs.djangoproject.com/en/4.2/ref/forms/api/
 class SignForm(LoginBaseForm):
     re_password = forms.CharField(error_messages={'required': 'Please confirm your password'})
 
@@ -52,29 +54,31 @@ class SignForm(LoginBaseForm):
 
 
 def clean_form(form):
-    err_dict: dict = form.errors #returns a dict that maps fields to the errors
+    err_dict: dict = form.errors  # returns a dict that maps fields to the errors
     err_valid = list(err_dict.keys())[0]
     err_msg = err_dict[err_valid][0]
     return err_valid, err_msg
-#Form.errors
-#Reference: https://docs.djangoproject.com/en/4.2/ref/forms/api/
+
+
+# Form.errors
+# Reference: https://docs.djangoproject.com/en/4.2/ref/forms/api/
 
 
 class LoginView(View):
     def post(self, request):
         response = {
             'code': 100,
-            'msg': 'You are Logged in', # custom status code 100 to You are logged in
+            'msg': 'You are Logged in',  # custom status code 100 to You are logged in
             'self': None
         }
         form = LoginForm(request.data, request=request)
         if not form.is_valid():
-            response['self'], response['msg'] = clean_form(form) #assign error message
+            response['self'], response['msg'] = clean_form(form)  # assign error message
             return JsonResponse(response)
         # Login
         user = form.cleaned_data.get('user')
         auth.login(request, user)
-        response['code'] = 0 #all tests pass
+        response['code'] = 0  # all tests pass
         return JsonResponse(response)
 
 
@@ -82,17 +86,27 @@ class SignView(View):
     def post(self, request):
         response = {
             'code': 200,
-            'msg': 'You are Registered!', # custom status code 200 to You are logged in
+            'msg': 'You are Registered!',  # custom status code 200 to You are logged in
             'self': None
         }
         form = SignForm(request.data, request=request)
         if not form.is_valid():
             response['self'], response['msg'] = clean_form(form)
             return JsonResponse(response)
+        email = request.data.get('email')
+        if not email:
+            response['msg'] = 'placeholder email'
+            return JsonResponse(response)
+        maiden_name = request.data.get('maidenName')
+        friend_name = request.data.get('friendName')
         user = UserInfo.objects.create_user(
             username=request.data.get('username'),
             password=request.data.get('password')
         )
+
+        user.email = email
+        user.maiden_name = maiden_name
+        user.friend_name = friend_name
         user.save()
         auth.login(request, user)
         response['code'] = 0

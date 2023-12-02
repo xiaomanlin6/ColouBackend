@@ -4,15 +4,54 @@
     <meta charset="UTF-8"/>
     <title>Login</title>
 </head>
+<link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+<link rel="stylesheet" href="/static/css/index.css">
 
 <body>
 <div id="app">
-    {% csrf_token %}
-        <div class="sign-in-form">
-            <h2>Login</h2>
-            <div>
-               Username: <input type="text" v-model="login_form.username" ref="login_form_username"/>
+    <div :class="container">
+        <div class="forms-container">
+            {% csrf_token %}
+            <div class="signin-signup">
+                <div class="sign-in-form">
+                    <h2 class="title">Login</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Username" v-model="login_form.username"
+                               ref="login_form_username"></input>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" v-model="login_form.password"
+                               ref="login_form_password"></input>
+                    </div>
+                    <button class="btn solid" @click="login">Login</button>
+                    <el-button type="text"  @click="edit_password_dialogVisible=true">Reset Password</el-button>
+                </div>
+                <div class="sign-up-form">
+                    <h2 class="title">Sign Up</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Username" v-model="sign_form.username" ref="sign_form_username"></input>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Email" v-model="sign_form.email" ref="sign_form_email"></input>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="password" placeholder="Password" v-model="sign_form.password"
+                               ref="sign_form_password"></input>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Confirm Password" v-model="sign_form.re_password"
+                               ref="sign_form_re_password"></input>
+                    </div>
+                    <button class="btn" @click="questionVisible = true">Sign Up</button>
+                </div>
             </div>
+<<<<<<< HEAD
             <div>
                Password: <input type="password"v-model="login_form.password" ref="login_form_password"/>
             </div>
@@ -24,15 +63,33 @@
             <h2>Register</h2>
             <div>
                 User Name: <input type="text" v-model="sign_form.username" ref="sign_form_username"/>
-            </div>
-            <div>
-                Password: <input type="password" v-model="sign_form.password" ref="sign_form_password"/>
-            </div>
-            <div>
-                Confirm Password: <input type="password" v-model="sign_form.re_password" ref="sign_form_re_password"/>
-            </div>
-            <button @click="sign">Register</button>
+=======
         </div>
+
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>New User?</h3>
+                    <br>
+                    <button class="btn transparent" id="sign-up-btn" @click="increase">
+                        Sign Up
+                    </button>
+                </div>
+                <img src="/static/img/login.svg" class="image" alt=""/>
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>Have an Account?</h3>
+                    <br>
+                    <button class="btn transparent" id="sign-in-btn" @click="decrease">
+                        Login
+                    </button>
+                </div>
+                <img src="/static/img/regisster1.svg" class="image" alt=""/>
+            </div>
+        </div>
+<<<<<<< HEAD
 
     <el-dialog title="Retrieve Password" :visible.sync="dialogFormVisible">
       <el-form :model="retrieveForm">
@@ -46,6 +103,55 @@
               <el-button type="primary" size="small" @click="retrievePassword">confirm</el-button>
           </el-form-item>
       </el-form>
+=======
+    </div>
+
+    <el-dialog title="Security Question" :visible.sync="questionVisible">
+    Please set answers for security questions.
+      <el-form :model="sign_form" labelPosition="top">
+        <el-form-item label="What is your mother's maiden name" :rules="[{ required: true, message: 'placeholder maiden name', trigger: 'blur'}]">
+          <el-input v-model="sign_form.maidenName" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="What is the name of your childhood best friend" :rules="[{ required: true, message: 'placeholder friend name', trigger: 'blur'}]">
+            <el-input v-model="sign_form.friendName" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="sign">confirm</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      title="Retrieve password"
+      :visible.sync="edit_password_dialogVisible"
+      width="30%">
+      <div class="edit_info">
+          <div>
+              <label for="edit_password_old_pwd">Username</label>
+              <el-input id="edit_password_old_pwd" type="text" v-model="edit_password.username" ></el-input>
+          </div>
+          <div>
+              <label for="edit_password_pwd">What is your mother's maiden name?</label>
+              <el-input id="edit_password_pwd" type="text" v-model="edit_password.maidenName" ></el-input>
+          </div>
+          <div>
+              <label for="edit_password_pwd">What is the name of your childhood best friend?</label>
+              <el-input id="edit_password_pwd" type="text" v-model="edit_password.firendName"></el-input>
+          </div>
+          <div>
+              <label for="edit_password_pwd">New Password</label>
+              <el-input id="edit_password_pwd" type="password" v-model="edit_password.pwd"></el-input>
+          </div>
+          <div>
+              <label for="edit_password_re_pwd">Confirm Password</label>
+              <el-input id="edit_password_re_pwd" type="password" v-model="edit_password.re_pwd"></el-input>
+          </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="edit_password_dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="edit_password_method">Confirm</el-button>
+      </span>
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
     </el-dialog>
 </div>
 
@@ -70,7 +176,7 @@
     new Vue({
         el: '#app',
         data: {
-
+            container: ['container'],
             login_form: {
                 username: '',
                 password: '',
@@ -78,8 +184,10 @@
 
             sign_form: {
                 username: '',
+                email: '',
                 password: '',
                 re_password: '',
+<<<<<<< HEAD
             },
 
             retrieveForm: {
@@ -87,7 +195,22 @@
                 newPassword: ''
             },
             dialogFormVisible: false
+=======
+                maidenName: '',
+                friendName: '',
+            },
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
 
+            edit_password: {
+                username: '',
+                pwd:'',
+                re_pwd:'',
+                maidenName: '',
+                friendName: ''
+            },
+            dialogFormVisible: false,
+            questionVisible: false,
+            edit_password_dialogVisible: false
         },
 
         methods: {
@@ -125,7 +248,34 @@
                 axios.post('/ColourPalette/retrieve/', this.retrieveForm).then(res => {
 
                 })
+<<<<<<< HEAD
             }
+=======
+            },
+
+            increase() {
+                this.container.push('sign-up-mode')
+            },
+
+            decrease() {
+                this.container = ['container']
+            },
+
+            edit_password_method() {
+                axios.post('/ColourPalette/edit_password/', this.edit_password).then(res => {
+                    if (res.code){
+                        this.$message.error(res.msg)
+                        $(`#edit_password_${res.self}`)[0].focus()
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000)
+
+                })
+            },
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
         }
 
     })

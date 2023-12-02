@@ -2,5 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+<<<<<<<< HEAD:film/.idea/vcs.xml
+========
+    <mapping directory="$PROJECT_DIR$/film" vcs="Git" />
+>>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be:.idea/vcs.xml
   </component>
 </project>

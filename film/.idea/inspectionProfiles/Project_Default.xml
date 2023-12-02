@@ -2,6 +2,7 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+<<<<<<< HEAD:film/.idea/inspectionProfiles/Project_Default.xml
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
@@ -38,5 +39,7 @@
       </option>
     </inspection_tool>
     <inspection_tool class="Stylelint" enabled="true" level="ERROR" enabled_by_default="true" />
+=======
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be:.idea/inspectionProfiles/Project_Default.xml
   </profile>
 </component>

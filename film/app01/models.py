@@ -14,10 +14,11 @@ class UserInfo(AbstractUser):
         verbose_name='Palette Liked',
         blank=True
     )
+    maiden_name = models.CharField(max_length=128, null=True, blank=True)
+    friend_name = models.CharField(max_length=128, null=True, blank=True)
 
     def __str__(self):
         return self.username
-
 
 
 class Color(models.Model):
@@ -25,7 +26,7 @@ class Color(models.Model):
     title = models.CharField(max_length=128, null=True)
     content = models.TextField(null=True, blank=True)
     user = models.ForeignKey(
-        to='UserInfo', #Publisher
+        to='UserInfo',  # Publisher
         to_field='nid',
         on_delete=models.CASCADE,
         null=True
@@ -37,7 +38,6 @@ class Color(models.Model):
 
     def __str__(self):
         return self.title
-
 
 
 class Comment(models.Model):
@@ -102,5 +102,8 @@ class FeedBack(models.Model):
 
     def __str__(self):
         return str(self.user.username)
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be

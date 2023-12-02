@@ -1,4 +1,36 @@
+<<<<<<< HEAD
 Please install the requirements.txt before running by entering
 pip install -r requirements.txt
 
 GitHub repository: https://github.com/xiaomanlin6/ColouBackend/tree/master
+=======
+1.Configure your project interpreter
+2.Create a run configuration and configure it to run manage.py with the parameter runserver:
+3.Install the requirements.txt before running by entering: pip install -r requirements.txt
+
+<<<<<<< HEAD
+GitHub repository: https://github.com/xiaomanlin6/ColouBackend/tree/master
+=======
+GitHub repository: https://github.com/xiaomanlin6/ColouBackend/tree/master
+
+Functions:
+1. Generate random colour palette
+2. Generate based on a selected colour
+3. Regenerate
+4. Like and comment on colour palettes
+5. Account page but need more functions
+6. Order the colour palettes based on likes and comments
+7. Add to collected colour palettes to categories in library
+8. Search for the palette based on RGB code
+9. Help section to submit questions or report issues
+10. Forum where users can post and reply
+
+Functions that are NOT completed:
+1. Generate colour palette based on images as the API doesn't supports this function
+2. Showing trending colour palettes as the API doesn't support this function
+3. Visualizing the palette, haven't find a way to do this
+
+
+I didn't realize we need to commits our progress to GitHub until submission, sorry about that.
+>>>>>>> a4feec689ebe32c80f3d74ec0b3dccce5c86bb42
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be

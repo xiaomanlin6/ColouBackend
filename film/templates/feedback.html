@@ -1,10 +1,17 @@
 {% extends 'home.html' %}
 
 {% block container %}
+<<<<<<< HEAD
     <el-form>
         {% csrf_token %}
         <el-form-item label="Content">
             <el-input v-model="feedContent" placeholder="placeholder content" type="textarea" rows="15"></el-input>
+=======
+    <el-form :model="feedbackModel" ref="feedbackForm">
+        {% csrf_token %}
+        <el-form-item prop="content" label="Content" :rules="[{required: true, message: 'content is required', trigger: 'blur'}]">
+            <el-input v-model="feedbackModel.content" placeholder="placeholder content" type="textarea" rows="15"></el-input>
+>>>>>>> 5270947da5fb8bfa8f1ed3f2d841d02f6ea432be
         </el-form-item>
 
         <el-form-item>
