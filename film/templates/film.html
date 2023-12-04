@@ -135,15 +135,19 @@
 
         methods: {
             addComment(nid) {
-                axios.post(`/ColourPalette/comment/${nid}/`, {comment_content: this.comment}).then(response => {
+                axios.post(`/ColourPalette/comment/${nid}/`, { comment_content: this.comment }).then(response => {
                     if (response.code) {
-                        this.$message.error(response.msg)
-                        return
+                        this.$message.error(response.msg);
+                        return;
                     }
-                    this.$message.success(response.msg)
-                })
-                location.reload();
+                    this.$message.success(response.msg);
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                });
             },
+
 
             // Like
             film_digg(e, nid) {

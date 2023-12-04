@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6de9cd1-4bc4-4fdc-95c0-600b50610abf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/film/.idea/dataSources.local.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/film/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/film/.idea/dataSources/6bcb685c-2dbf-4740-9535-a85abab2df7a.xml" beforeDir="false" />
@@ -26,6 +25,7 @@
       <change beforePath="$PROJECT_DIR$/film/media/video/96dda144ad345982b2b7ff932ab826adcbef76092ed4.webp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/film/static/css/home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/film/static/css/home.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/film/static/elementui/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/film/static/elementui/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/film/templates/collect.html" beforeDir="false" afterPath="$PROJECT_DIR$/film/templates/collect.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/film/templates/color.html" beforeDir="false" afterPath="$PROJECT_DIR$/film/templates/color.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/film/templates/details.html" beforeDir="false" afterPath="$PROJECT_DIR$/film/templates/details.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/film/templates/feedback.html" beforeDir="false" afterPath="$PROJECT_DIR$/film/templates/feedback.html" afterDir="false" />
@@ -108,7 +108,7 @@
       <workItem from="1701656209191" duration="31000" />
       <workItem from="1701658508069" duration="902000" />
       <workItem from="1701659420861" duration="6356000" />
-      <workItem from="1701671212142" duration="1008000" />
+      <workItem from="1701671212142" duration="1315000" />
     </task>
     <servers />
   </component>

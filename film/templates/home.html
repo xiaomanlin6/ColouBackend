@@ -340,7 +340,7 @@
 
             saveColor() {
                 axios.post('/ColourPalette/film/', {colorResult: JSON.stringify(this.colorResult)}).then(reponse => {
-                    this.$message.success('Save Successfully')
+                    this.$message.success('Publish Successfully')
                     setTimeout(() => {
                         location.href = '/home'
                     }, 2000)
