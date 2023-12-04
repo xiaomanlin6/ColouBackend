@@ -25,11 +25,8 @@ class UserSetupView(View):
         return JsonResponse(res)
 
 class EditPasswordForm(forms.Form):
-    pwd = forms.CharField(min_length=6, error_messages={'required': 'Invalid Update', 'min_length': 'password '
-                                                                                                          'is '
-                                                                                                          'required 6'})
-    re_pwd = forms.CharField(min_length=6, error_messages={'required': 'confirm password', 'min_length': 'password is '
-                                                                                                         'required 6'})
+    pwd = forms.CharField(min_length=6, error_messages={'required': 'Invalid Update', 'min_length': 'Pass should be longer than 6 digits'})
+    re_pwd = forms.CharField(min_length=6, error_messages={'required': 'confirm password', 'min_length': 'Pass should be longer than 6 digits'})
 
     def __init__(self, *args, **kwargs):
 
