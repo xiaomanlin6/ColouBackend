@@ -101,23 +101,21 @@
                     <div class="detail">
                     <el-card class="card-form">
                         <el-form :model="config" labelPosition="top">
-                            <el-form-item label="color name">
-                                <el-input placeholder="placeholder input" v-model="config.name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="color classify">
-                                <el-select v-model="config.comment" placeholder="placeholder select">
+                            <el-form-item label="RGB Code">
+                                <el-select v-model="config.comment" placeholder="Color">
                                     <el-option
-                                      v-for="item in [{value: 'red', label: 'red'}, {value: 'blue', label: 'blue'}, {value: 'yellow', label: 'yellow'}]"
+                                      v-for="item in [{value: 'red', label: 'Red'}, {value: 'green', label: 'Green'}, {value: 'blue', label: 'Blue'}]"
                                       :key="item.value"
                                       :label="item.label"
                                       :value="item.value">
                                     </el-option>
-                              </el-select>
+                                </el-select>
+                                <el-input placeholder="Number Code" v-model="config.name"></el-input>
                             </el-form-item>
-                            <el-form-item label="color sort">
-                                <el-select v-model="config.sort" placeholder="placeholder select">
+                            <el-form-item label="Sort by">
+                                <el-select v-model="config.sort">
                                     <el-option
-                                      v-for="item in [{value: 'digg_count', label: 'liked'}, {value: 'comment_count', label: 'comment'}]"
+                                      v-for="item in [{value: 'digg_count', label: 'Likes'}, {value: 'comment_count', label: 'Comments'}]"
                                       :key="item.value"
                                       :label="item.label"
                                       :value="item.value">
@@ -125,8 +123,8 @@
                               </el-select>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" size="small" @click="getTableData">start load</el-button>
-                                <el-button size="small" @click="resetData">reset load</el-button>
+                                <el-button type="primary" size="small" @click="getTableData">Apply</el-button>
+                                <el-button size="small" @click="resetData">Reset</el-button>
                             </el-form-item>
                         </el-form>
                     </el-card>
@@ -244,6 +242,15 @@
         },
 
         methods: {
+            handleSuccess(response, file, fileList){
+                this.$message({
+                    message:'Success',
+                    type: 'success'
+                })
+                setTimeout(() => {
+                                location.reload()
+                            }, 1000)
+            },
             getTableData() {
                 this.isLoading = true
                 axios({

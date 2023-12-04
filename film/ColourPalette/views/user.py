@@ -15,7 +15,7 @@ class UserSetupView(View):
         nid = request.data.get('nid')
         user_name = request.data.get('userName')
         user_gender = request.data.get('userGender')
-        user_company = request.data.get('userNation')
+        user_company = request.data.get('userCompany')
         email = request.data.get('email')
 
         user_query = UserInfo.objects.filter(nid=nid)

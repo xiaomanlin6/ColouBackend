@@ -1,14 +1,15 @@
 {% extends 'home.html' %}
 
 {% block container %}
+    <el-skeleton :rows="12" animated :loading="isLoading">
     <el-form :model="feedbackModel" ref="feedbackForm">
         {% csrf_token %}
         <el-form-item prop="content" label="Content" :rules="[{required: true, message: 'content is required', trigger: 'blur'}]">
-            <el-input v-model="feedbackModel.content" placeholder="placeholder content" type="textarea" rows="15"></el-input>
+            <el-input v-model="feedbackModel.content" placeholder="Enter your feedback here." type="textarea" rows="15"></el-input>
         </el-form-item>
 
         <el-form-item>
-            <el-button @click="submitFeed" type="success">submit</el-button>
+            <el-button @click="submitFeed" type="success">Submit</el-button>
         </el-form-item>
     </el-form>
 {% endblock %}

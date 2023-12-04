@@ -72,3 +72,5 @@ def feedback(request):
     user_info = UserInfo.objects.filter(nid=request.user.nid).first()
     return render(request, 'feedback.html', locals())
 
+def copy_url(request):
+    return render(request, 'copy_url.html')

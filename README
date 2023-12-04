@@ -1,11 +1,15 @@
+
+ITEC 4012
+Xiaoman Lin
+#101137873
+
 1.Configure your project interpreter
 2.Create a run configuration and configure it to run manage.py with the parameter runserver:
 3.Install the requirements.txt before running by entering: pip install -r requirements.txt
 
-<<<<<<< HEAD
+
 GitHub repository: https://github.com/xiaomanlin6/ColouBackend/tree/master
-=======
-GitHub repository: https://github.com/xiaomanlin6/ColouBackend/tree/master
+
 
 Functions:
 1. Generate random colour palette
@@ -22,8 +26,5 @@ Functions:
 Functions that are NOT completed:
 1. Generate colour palette based on images as the API doesn't supports this function
 2. Showing trending colour palettes as the API doesn't support this function
-3. Visualizing the palette, haven't find a way to do this
+3. Visualizing the palette, ignore this task with the permission from professor
 
-
-I didn't realize we need to commits our progress to GitHub until submission, sorry about that.
->>>>>>> a4feec689ebe32c80f3d74ec0b3dccce5c86bb42

@@ -23,7 +23,7 @@ class ArticleDiggView(View):
         if is_liked:
             request.user.digg_film.remove(nid) #remove the liked palette from the user
             num = -1
-            status['msg'] = 'Cancel Like'
+            status['msg'] = 'Like Canceled'
             status['isDigg'] = False
         else:
             request.user.digg_film.add(nid)

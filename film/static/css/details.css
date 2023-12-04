@@ -1,0 +1,123 @@
+.idle-details-container {
+    min-height: 85vh;
+}
+
+.details-header {
+    height: 80px;
+    border-bottom: 10px solid #f6f6f6;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+}
+
+.details-header-user-info {
+    display: flex;
+}
+
+.details-header-user-info-nickname {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.details-header-user-info-time {
+    font-size: 12px;
+    color: #555555;
+}
+
+.details-header-buy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+}
+
+.details-info {
+    padding: 20px 50px;
+}
+
+.details-info-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.details-info-main {
+    font-size: 17px;
+    color: #121212;
+    line-height: 160%;
+}
+
+.details-picture {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message-container {
+    min-height: 100px;
+    border-top: 10px solid #f6f6f6;
+    padding: 20px;
+}
+
+.message-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.message-send {
+    min-height: 60px;
+}
+
+.message-send-button {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.message-container-list {
+    min-height: 60px;
+    border-top: 1px solid #eeeeee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.message-container-list:first-child {
+    border-top: none;
+}
+
+.message-container-list-left {
+    width: 850px;
+    display: flex;
+}
+
+.message-container-list-right {
+    width: 100px;
+}
+
+.message-container-list-text {
+    margin-left: 10px;
+}
+
+.message-nickname {
+    font-weight: 600;
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+.message-content {
+    font-size: 16px;
+    padding-bottom: 15px;
+    color: #555555;
+    width: 770px;
+}
+
+.message-time {
+    font-size: 13px;
+    color: #555555;
+}

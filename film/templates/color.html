@@ -2,17 +2,18 @@
 
 
 {% block container %}
+    <el-skeleton :rows="12" animated :loading="isLoading">
     <div class="generate">
         <div>
-            <p>Select your colour</p>
-            <p>Or generate colour without selection</p>
+            <h2>Select your colour and get a palette!</h2>
+            <p>Get random palette when generate without picking colour</p>
 
             <el-button type="primary" @click="generateColor">Generate</el-button>
         </div>
 
         <el-form class="form">
             <el-form-item>
-                Select Colour: <br/>
+                Pick Colour Here: <br/>
                 <el-color-picker v-model="colorInput" color-format="rgb"></el-color-picker>
             </el-form-item>
         </el-form>

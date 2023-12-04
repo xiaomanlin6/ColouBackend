@@ -8,106 +8,72 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forums</title>
     <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
+    <link rel="stylesheet" href="/static/css/details.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <div id="app">
-    <div class="header">
-        <div class="header-container">
-            <div class="app-name">
-                <a href="/sharing">return List</a>
-            </div>
-        </div>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/sharing">Back</a>
+    </nav>
 
-    <div class="main-container">
-        <div class="main-content">
-            <div class="idle-details-container">
-                <div class="details-header">
-                    <div class="details-header-buy">
-                        <div style="color: red;font-size: 18px;font-weight: 600;">
-                            Created By： {{ sharing_obj.user.username }}</div>
-
-                        <div style="color: #333;font-size: 18px;font-weight: 600; margin: 0 20px">
-                            Created Time: {{ sharing_obj.create_date|date:'Y-m-d' }}</div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header text-white bg-primary">
+                        Created By: {{ sharing_obj.user.username }} <br>
+                        Created Time: {{ sharing_obj.create_date|date:'Y-m-d' }}
                     </div>
-                </div>
-
-                <div class="details-info">
-                    <div class="details-info-title">{{ sharing_obj.title }}</div>
-                    <div class="details-info-main">
-                        {{ sharing_obj.content }}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sharing_obj.title }}</h5>
+                        <p class="card-text">{{ sharing_obj.content }}</p>
                     </div>
-                </div>
-
-                <div class="message-container" id="replyMessageLocation">
-                    {% csrf_token %}
-                    <div class="message-title">Comment</div>
-                    <div class="message-send">
-                        <el-input
-                                type="textarea"
-                                autosize
-                                placeholder="input..."
-                                v-model="messageContent"
-                                maxlength="200"
-                                show-word-limit>
-                        </el-input>
-                        <div class="message-send-button">
-                            <el-button plain @click="sendMessage('{{ sharing_obj.nid }}')">Send</el-button>
-                        </div>
-                    </div>
-                    <div>
-                        {% for comment in comment_list %}
-                            <div class="message-container-list">
-                                <div class="message-container-list-left">
-{#                                    <el-image#}
-{#                                            style="width: 55px; height: 55px;border-radius: 5px;"#}
-{#                                            src="{{ comment.user.avatar.url }}"#}
-{#                                            fit="contain"></el-image>#}
-                                    <div class="message-container-list-text">
-                                        <div class="message-nickname">{{ comment.user.username }}
-                                        </div>
-                                        <div class="message-content">{{ comment.content }}</div>
-                                        <div class="message-time">{{ comment.create_date|date:'Y-m-d' }}</div>
-                                    </div>
-                                </div>
-                                <div class="message-container-list-right">
-                                    <el-button style="float: right;" plain
-                                               @click="replyMessage('{{ sharing_obj.nid }}', '{{ comment.nid }}')">replay
-                                    </el-button>
-                                </div>
-                            </div>
-                            {% for sub in comment.sub_comment %}
-                                <div class="message-container-list">
-                                    <div class="message-container-list-left">
-                                        <el-image
-                                                style="width: 55px; height: 55px;border-radius: 5px;"
-                                                src="{{ sub.user.avatar.url }}"
-                                                fit="contain"></el-image>
-                                        <div class="message-container-list-text">
-                                            <div class="message-nickname">{{ sub.user.username }}
-                                                @ {{ comment.user.username }}
-                                            </div>
-                                            <div class="message-content">{{ sub.content }}</div>
-                                            <div class="message-time">{{ sub.create_date|date:'Y-m-d' }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
-                        {% endfor %}
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="foot-container">
-                <div class="author">Color<a target="_blank"
-                                                   href="">@Designer</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="container mt-4">
+        {% csrf_token %}
+        <h3>Comment</h3>
+        <form>
+            <div class="form-group">
+                <textarea class="form-control" placeholder="Enter your comment here" rows="3" v-model="messageContent"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" @click="sendMessage('{{ sharing_obj.nid }}')">Send</button>
+        </form>
+
+        <ul class="list-group mb-4 mt-4">
+            {% for comment in comment_list %}
+                <li class="list-group-item">
+                    <strong>{{ comment.user.username }}:</strong> {{ comment.content }}
+                    <br>
+                    <small class="text-muted">{{ comment.create_date|date:'Y-m-d' }}</small>
+                    <button class="btn btn-link float-right" @click="replyMessage('{{ sharing_obj.nid }}', '{{ comment.nid }}')">Reply</button>
+                </li>
+                {% for sub in comment.sub_comment %}
+                    <li class="list-group-item border-left pl-4 ml-3 bg-light">
+                        {% if sub.user.avatar %}
+                            <img src="{{ sub.user.avatar.url }}" class="rounded-circle mr-2" style="width: 35px; height: 35px;" alt="User Avatar">
+                        {% else %}
+                            <img src="/media/avatar/default_avatar.jpg" class="rounded-circle mr-2" style="width: 35px; height: 35px;" alt="Default Avatar">
+                        {% endif %}
+                        <strong>{{ sub.user.username }} @ {{ comment.user.username }}</strong>
+                        <p>{{ sub.content }}</p>
+                        <small class="text-muted">{{ sub.create_date|date:'Y-m-d' }}</small>
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+
+
 
 <script src="/static/vue/vue.js"></script>
 <script src="/static/elementui/index.js"></script>
@@ -153,9 +119,9 @@
             },
 
             replyMessage(nid, pid) {
-                this.$prompt('placeholder content', 'tip', {
-                    confirmButtonText: 'confirm',
-                    cancelButtonText: 'cancel',
+                this.$prompt('Leave your reply here', 'Reply', {
+                    confirmButtonText: 'Confirm',
+                    cancelButtonText: 'Cancel',
                 }).then(({value}) => {
                     axios.post(`/ColourPalette/comment_share/${nid}/`, {content: value, pid: pid}).then(res => {
                         if (res.code !== 200) {
@@ -170,7 +136,7 @@
                 }).catch(() => {
                     this.$message({
                         type: 'info',
-                        message: 'cancel input'
+                        message: 'Invalid Input'
                     });
                 });
             },
