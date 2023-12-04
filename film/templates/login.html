@@ -6,6 +6,8 @@
 </head>
 <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
 <link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
 
 <body>
 <div id="app">
@@ -30,26 +32,37 @@
                 </div>
                 <div class="sign-up-form">
                     <h2 class="title">Sign Up</h2>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Username" v-model="sign_form.username" ref="sign_form_username"></input>
+                    <div class="input-field signup-field mb-3" :class="{'has-error': !isUsernameValid}">
+                        <i class="fas fa-user position-absolute"></i>
+                        <input type="text" class="form-control pl-4" placeholder="Username" v-model="sign_form.username" @input="validateUsername" ref="sign_form_username">
+
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Email" v-model="sign_form.email" ref="sign_form_email"></input>
+                    <span v-if="!isUsernameValid">Username must be 3-15 characters long.</span>
+
+                    <div class="input-field signup-field mb-3" :class="{'has-error': !isEmailValid}">
+                        <i class="fas fa-envelope position-absolute"></i>
+                        <input type="text" class="form-control pl-4" placeholder="Email" v-model="sign_form.email" @input="validateEmail" ref="sign_form_email">
+
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="password" placeholder="Password" v-model="sign_form.password"
-                               ref="sign_form_password"></input>
+                    <span v-if="!isEmailValid">Invalid email format.</span>
+
+
+                    <div class="input-field signup-field mb-3">
+                        <i class="fas fa-lock position-absolute"></i>
+                        <input type="password" class="form-control pl-4" placeholder="Password" v-model="sign_form.password" ref="sign_form_password">
+
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Confirm Password" v-model="sign_form.re_password"
-                               ref="sign_form_re_password"></input>
+
+                    <div class="input-field signup-field mb-3" :class="{'has-error': !isConfirmPasswordValid}">
+                        <i class="fas fa-lock position-absolute"></i>
+                        <input type="password" class="form-control pl-4" placeholder="Confirm Password" v-model="sign_form.re_password" @input="validateConfirmPassword" ref="sign_form_re_password">
+
                     </div>
-                    <button class="btn" @click="questionVisible = true">Sign Up</button>
+                    <span v-if="!isConfirmPasswordValid">Passwords do not match.</span>
+                    <button class="btn btn-primary" @click="submitForm">Sign Up</button>
                 </div>
+
+
             </div>
         </div>
 
@@ -80,15 +93,15 @@
     <el-dialog title="Security Question" :visible.sync="questionVisible">
     Please set answers for security questions.
       <el-form :model="sign_form" labelPosition="top">
-        <el-form-item label="What is your mother's maiden name" :rules="[{ required: true, message: 'placeholder maiden name', trigger: 'blur'}]">
+        <el-form-item label="What is your mother's maiden name?" :rules="[{ required: true, message: 'Enter your answer', trigger: 'blur'}]">
           <el-input v-model="sign_form.maidenName" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="What is the name of your childhood best friend" :rules="[{ required: true, message: 'placeholder friend name', trigger: 'blur'}]">
+        <el-form-item label="What is the name of your childhood best friend?" :rules="[{ required: true, message: 'Enter your answer', trigger: 'blur'}]">
             <el-input v-model="sign_form.friendName" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="sign">confirm</el-button>
+        <el-button type="primary" @click="sign">Confirm</el-button>
       </div>
     </el-dialog>
 
@@ -160,6 +173,10 @@
                 maidenName: '',
                 friendName: '',
             },
+            isUsernameValid: true,
+            isEmailValid: true,
+
+            isConfirmPasswordValid: true,
 
             edit_password: {
                 username: '',
@@ -172,6 +189,11 @@
             questionVisible: false,
             edit_password_dialogVisible: false
         },
+        computed: {
+        isFormValid() {
+            return this.isUsernameValid && this.isEmailValid && this.isConfirmPasswordValid;
+        }
+    },
 
         methods: {
             login() {
@@ -218,6 +240,37 @@
                 this.container = ['container']
             },
 
+            validateUsername() {
+                const minLength = 3;
+                const maxLength = 15;
+                this.isUsernameValid = this.sign_form.username.length >= minLength && this.sign_form.username.length <= maxLength;
+            },
+
+            validateEmail() {
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                this.isEmailValid = emailRegex.test(this.sign_form.email);
+            },
+
+
+
+            validateConfirmPassword() {
+                this.isConfirmPasswordValid = this.sign_form.password === this.sign_form.re_password;
+            },
+
+            submitForm() {
+                this.validateUsername();
+                this.validateEmail();
+
+                this.validateConfirmPassword();
+
+                if (this.isFormValid) {
+                    this.questionVisible = true;
+                } else {
+                    // Handle invalid form submission here.
+                }
+            },
+
+
             edit_password_method() {
                 axios.post('/ColourPalette/edit_password/', this.edit_password).then(res => {
                     if (res.code){
@@ -236,5 +289,8 @@
 
     })
 </script>
+
+
+
 </body>
 </html>

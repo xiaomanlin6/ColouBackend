@@ -25,7 +25,7 @@ class UserSetupView(View):
         return JsonResponse(res)
 
 class EditPasswordForm(forms.Form):
-    pwd = forms.CharField(min_length=6, error_messages={'required': 'placeholder password', 'min_length': 'password '
+    pwd = forms.CharField(min_length=6, error_messages={'required': 'Invalid Update', 'min_length': 'password '
                                                                                                           'is '
                                                                                                           'required 6'})
     re_pwd = forms.CharField(min_length=6, error_messages={'required': 'confirm password', 'min_length': 'password is '
