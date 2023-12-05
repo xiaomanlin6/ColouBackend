@@ -7,6 +7,9 @@ Xiaoman Lin
 2.Create a run configuration and configure it to run manage.py with the parameter runserver:
 3.Install the requirements.txt before running by entering: pip install -r requirements.txt
 
+Bonus Point:
+I have implemented CSS-based transition animations on the login/signup page to enhance the user experience. I believe this effort aligns with the criteria for the beautiful design bonus points, and I would appreciate your consideration in this regard.
+
 
 GitHub repository: https://github.com/xiaomanlin6/ColouBackend/tree/master
 
